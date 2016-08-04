@@ -1,6 +1,6 @@
 angular.module('pm').controller('navigationCtrl', navigationCtrl);
 
-function navigationCtrl($location) {
+function navigationCtrl($location, authentication) {
     var nvm = this;
 
 
@@ -24,10 +24,16 @@ function navigationCtrl($location) {
     nvm.tabs.forEach(function (tab) {
         if ($location.path() == tab.path) {
             nvm.active = tab.index;
-    }
+        }
     });
 
     nvm.select = function (tab) {
         $location.path(tab.path);
+    };
+
+    nvm.logout = function () {
+        authentication.logout();
+        // $scope.isLoggedIn = authentication.isLoggedIn();
+        $location.path("/login");
     };
 }

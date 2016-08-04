@@ -1,8 +1,8 @@
 (function () {
     angular.module('pm').factory('authentication', authentication);
 
-    authentication.$inject = ['$rootScope', '$window', '$http', '$resource', '$state', 'pmaServiceApiUrl'];
-    function authentication($rootScope, $window, $http, $resource, $state, apiUrl) {
+    authentication.$inject = ['$rootScope', '$window', '$http', '$resource', '$location', 'pmaServiceApiUrl'];
+    function authentication($rootScope, $window, $http, $resource, $location, apiUrl) {
         var popupWidth;
         if (!$rootScope.browser) {
             popupWidth = window.screen.width;
@@ -64,30 +64,19 @@
 
         logSynapticon = function () {
             var loginPopup = $window.open(apiUrl + '/loginsncn', 'Login', 'width=' + popupWidth + 'px,height=600px');
-            window.addEventListener('message', function (event) {
+            $window.addEventListener('message', function (event) {
                 saveToken(event.data);
                 loginPopup.close();
-                $state.go('app.devices');
+                $location.path('/');
+                $rootScope.$apply();
             });
-
-            loginPopup.addEventListener('loadstop', function (event) {
-                if (event.url.indexOf('pma') > -1) {
-                    loginPopup.executeScript(
-                        { code: "localStorage.jwt;" }, function (data) {
-                            saveToken(data);
-                            loginPopup.close();
-                            $state.go('app.devices');
-                        }
-                    );
-                }
-            });
-        }
+        };
 
         logout = function () {
             $window.localStorage.removeItem('pma-token');
             var logoutPopup = window.open('https://account.synapticon.com', 'Logout', 'width=' + popupWidth + 'px,height=600px');
             
-        }
+        };
 
         return {
             saveToken: saveToken,

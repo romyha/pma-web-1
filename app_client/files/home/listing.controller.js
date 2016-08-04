@@ -7,7 +7,9 @@
         var image;
         var noImgPath = "../../img/No-image-found.jpg";
 
-        var author = authentication.currentUser() ? authentication.currentUser().name : store.get('profile').email;
+        if (authentication.currentUser()) {
+            var author = authentication.currentUser().name;
+        }
 
         deviceData.locations().success(function (locations) {
             vm.locations = locations;

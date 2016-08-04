@@ -311,8 +311,9 @@ a.tab-item.activated {
     border-color: rgb(229, 27, 65) !important;
 }
 
-.full-height, ion-content#full-height-scroll > .scroll {
-    height: 100% !important;
+.full-height {
+    margin: 0 auto;
+    height: 100%;
 }
 
 .button-wide {
@@ -414,4 +415,13 @@ form {
 
 .btn-height {
     line-height: 34px;
+}
+
+.big-logo {
+    font-size: 40px !important;
+}
+
+.vertical-align {
+    margin-top: 25%;
+    margin-bottom: 25%;
 }

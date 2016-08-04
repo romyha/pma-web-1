@@ -1,16 +1,11 @@
-<ion-view view-title="Login">
+<div class='container-fluid'>
+  <div class="row" >
 
-  <ion-content id="full-height-scroll">
-    <div class="row row-center full-height">
-      
-      <div class="col col-center" align="center">
-        <h4>You need to login.</h1>
-        <div>
-          <button type="button" class="more-margin button button-block button-synred button-wide button-high icon icon-syn-icon-trans" ng-click="vm.loginWithSncn()"></button>
-        </div>
-        <div>
-          <button type="button" class="more-margin button button-block  button-high button-outline button-dark" ng-click="vm.asTestUser()">Use Test Mode</button></div>
-      </div>
+    <div class="col-lg-12 vertical-align" align="center" >
+      <div>
+        <h4>You need to login.</h4>
+        <button type="button" class="big-logo more-margin btn btn-large button-high button-synred icon-syn-icon-trans" ng-click="vm.loginWithSncn()"></button>
+        <button type="button" class="more-margin btn btn-default button-high " ng-click="vm.asTestUser()">Use Test Mode</button></div>
     </div>
-  </ion-content>
-</ion-view>
+  </div>
+</div>
