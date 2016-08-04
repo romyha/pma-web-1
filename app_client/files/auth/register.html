@@ -1,0 +1,27 @@
+<ion-view view-title="Register">
+
+  <ion-content>
+    <h1 class="title">Register</h1>
+    <form ng-submit="vm.doRegister()">
+      <div class="list list-inset">
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="vm.credentials.name">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Email</span>
+          <input type="email" ng-model="vm.credentials.email">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="vm.credentials.password">
+        </label>
+        <p>{{vm.log}}</p>
+        <div class="button-bar">
+          <button class="button button-large button-positive" type="submit">Register</button>
+          <a class="center button button-large button-outline button-stable" href="#/app/login">Login instead</a>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

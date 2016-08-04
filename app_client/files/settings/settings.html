@@ -1,0 +1,25 @@
+<ion-view view-title="Settings">
+  <ion-content class="has-footer">
+
+    <div class="list list-inset">
+      <div class="item item-divider">Account</div>
+      <a class="item" ng-click="logout()" ng-show="isLoggedIn">
+            Logout
+        </a>
+      <a class="item" ng-click="vm.endTestMode()" ng-show="testMode">
+            Finish Test Mode
+        </a>
+
+    </div>
+
+  </ion-content>
+
+  <ion-footer-bar class="tabs tabs-secondary tabs-icon-top no-border no-padding">
+    <a class="tab-item" ng-click="vm.goHome()">
+      <i class="icon ion-home"></i>Home
+    </a>
+
+
+  </ion-footer-bar>
+
+</ion-view>

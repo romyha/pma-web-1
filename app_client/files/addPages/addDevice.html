@@ -1,0 +1,64 @@
+<navigation></navigation>
+
+<div class='container'>
+    <ng-form name='form' class='form-horizontal'>
+        <div class="form-group" ng-class="{'has-error': vm.nameerror}" aria-invalid="vm.device.name==''">
+            <label for="name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input name='name' aria-describedby="nameerror" type="text" class="form-control" id="name" ng-model='vm.device.name' ng-required='true' ng-change='vm.clear()'>
+                <span id="nameerror" class="help-block">{{vm.nameerror}}</span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': vm.codeerror}">
+            <label for="code" class="col-sm-2 control-label">Code</label>
+            <div class="col-sm-10">
+                <div class='input-group'>
+                    <input name='code' aria-describedby="codeerror" type="text" class="form-control" id="code" ng-model='vm.device.code' ng-required='true' ng-change='vm.clear()'>
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click='vm.scan()'>Scan</button>
+                    </span>
+                    
+                </div>
+                <span id="codeerror" class="help-block">{{vm.codeerror}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status" class="col-sm-2 control-label">Status</label>
+            <div class="col-sm-10" uib-dropdown>
+                <button type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
+                    &nbsp;{{vm.status}}&nbsp;<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
+                    <li role="menuitem"><a ng-click="vm.setStatus('green', 'OK')">OK</a></li>
+                    <li role="menuitem"><a ng-click="vm.setStatus('yellow', 'Limited')">Limited</a></li>
+                    <li role="menuitem"><a ng-click="vm.setStatus('blue', 'Reserved')">Reserved</a></li>
+                    <li role="menuitem"><a ng-click="vm.setStatus('red', 'Broken')">Broken</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="location" class="col-sm-2 control-label">Location</label>
+            <div class="col-sm-10">
+                <input type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8" class="form-control"
+                    id="location" ng-model='vm.device.location'>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description" class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+                <textarea type="text" class="form-control" id="description" ng-model='vm.device.description'></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="file-chooser" class='col-sm-2 control-label'>Photo</label>
+            <div class="col-sm-10">
+                <img src='{{vm.path}}' class='img-responsive img-rounded' ng-show='vm.path'>
+                <input type="file" id="file-chooser" onchange="setImgFile()">
+            </div>
+        </div>
+        <div align='center'>
+            <button ng-click='vm.addDevice(form.code.$valid, form.name.$valid)' class='btn btn-primary'>Save</button>
+            <button ng-click='vm.saveAndCreateNext(form.code.$valid, form.name.$valid)' class='btn btn-primary'>Save & Create next</button>
+        </div>
+    </ng-form>
+</div>

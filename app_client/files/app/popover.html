@@ -1,0 +1,15 @@
+<ion-popover-view>
+    <ion-header-bar class="item-divider">
+        <h1 class="title">Menu</h1> </ion-header-bar>
+    <ion-content>
+        <ion-list class="list">
+            <!-- add ng-href to get tap-feedback on android, otherwise activated class is not applied-->
+            <ion-item ng-href ng-click="settings()" ng-hide="onSettings()">
+                <i class="ion-ios-gear larger"> Settings</i>
+            </ion-item>
+            <ion-item ng-href ng-click="enterHelp()" ng-hide="onHelpPage()">
+                <i class="ion-ios-information-outline larger"> Help</i>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-popover-view>

@@ -1,0 +1,61 @@
+<ion-view title="UPDATE {{vm.device.name}}">
+
+    <ion-content overflow-scroll="false">
+        <form name="updateAddForm" class="list list-inset form-center" ng-submit="vm.addUpdate(updateAddForm)" ng-model="vm.form">
+
+            <div class="item item-input-inset less-padding">
+
+                <span>&nbsp;Author: &emsp;</span>
+                <span class="col col-55">
+                    {{vm.author}}
+                </span>
+
+                <div class="right col col-20" align="right" style="text-align: right !important">
+                    <a class="button no-padding" style="line-height: 10px;" ng-click="vm.pickDate()" ng-hide="browser"><i class="icon ion-android-calendar no-padding"></i>
+                     <div class="smaller">{{vm.date | date : "d M"}}</div></a>
+
+                    <ionic-datepicker date="vm.currentDate" max="vm.maxDate" callback="vm.saveDate" ng-show="browser">
+                        <button type="button" class="button button-block button-positive icon ion-android-calendar less-padding small-margin">&nbsp;{{vm.date | date : "d M yy"}}</button>
+                    </ionic-datepicker>
+                </div>
+            </div>
+
+            <label class="item item-select">
+                
+                <span class="item-label">Status</span>
+                <select name="status" class="item-select" style="background-color: {{vm.color}} !important" ng-model="vm.selector" ng-change="vm.updateColor()"  ng-required="vm.statRequired">
+                   <option value="green">OK</option>
+                    <option value="yellow">Limited</option>
+                    <option value="blue">Reserved</option>
+                    <option value="red">Broken</option>
+                </select>
+                 
+            </label>
+
+            <p ng-show="vm.submitted && updateAddForm.status.$invalid" class="warning"><i class="ion-alert-circled"> Status required</i></p>
+
+            <div class="item item-input-inset">
+                <span class="input-label">Message</span>
+                <label class="item-input-wrapper">                
+                
+                <textarea name="message" placeholder="Update" class="big-area" ng-model="vm.message"  ng-required="vm.noLocation" ng-change="vm.onMesEnter()"></textarea>
+            </label>
+            </div>
+
+            <div id="locAnchor" class="item item-input-inset">
+                <span class="input-label">New Location</span>
+                <label class="item-input-wrapper">                
+                <input delegate-handle="locationScroll" ng-focus="vm.scrollLocationUp()" name="location" type="text" placeholder="Location" ng-model="vm.location"  ng-required="vm.noMessage" ng-change="vm.onLocEnter()">
+            </label>
+            </div>
+            <p align="center" class="item" ng-repeat="location in vm.locations | filter: vm.location" style="line-height: 5px !important"
+                ng-click="vm.complete(location)" ng-hide="vm.locationHide">{{location}}</p>
+
+
+            <p ng-show="vm.submitted && updateAddForm.message.$invalid && updateAddForm.location.$invalid" class="warning"><i class="ion-alert-circled"> Message or location required</i></p>
+            <button class="button button-block button-synred more-margin" type="submit" ng-click="vm.addUpdate()">
+                <i class="icon fa fa-floppy-o"></i>Save
+            </button>
+        </form>
+    </ion-content>
+</ion-view>
