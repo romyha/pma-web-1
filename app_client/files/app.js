@@ -1,6 +1,6 @@
 angular.module('pm', ['ngRoute', 'ngResource', 'ui.router', 'ui.bootstrap', 'angular-storage', 'angular-jwt'])
 
-    .constant('pmaServiceApiUrl', 'http://localhost:5000/api')//'https://pma-service.synapticon.com/api')
+    .constant('pmaServiceApiUrl', 'http://localhost:5000/api')
 
     .config(function ($routeProvider) {
         $routeProvider
