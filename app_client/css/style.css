@@ -122,7 +122,7 @@ select {
 }
 
 .no-padding {
-    padding: 0;
+    padding: 0 !important;
 }
 
 .circles {
@@ -203,10 +203,6 @@ input[readonly] {
     color: grey
 }
 
-#searchbar {
-    width: 100% !important;
-    border: 0 !important;
-}
 
 .no-border {
     border: 0;
@@ -236,8 +232,8 @@ a.tab-item.activated {
 }
 
 .no-top-bot-pad {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .bar-grey {
@@ -424,4 +420,34 @@ form {
 .vertical-align {
     margin-top: 25%;
     margin-bottom: 25%;
+}
+
+.animate.ng-enter,
+.animate.ng-leave {
+  -webkit-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -moz-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -ms-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -o-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  position: relative;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.animate.ng-leave.animate.ng-leave-active,
+.animate.ng-enter {
+    -webkit-transition: 1s linear all;
+  /* Chrome */
+  transition: 1s linear all;
+  opacity: 0;
+}
+
+.animate.ng-enter.ng-enter-active,
+.animate.ng-leave {
+  opacity: 1;
+}
+
+.fade.ng-show {
+  transition:0.5s linear all;
+  opacity:0;
 }
