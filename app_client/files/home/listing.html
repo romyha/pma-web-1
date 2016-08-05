@@ -1,14 +1,15 @@
 <navigation></navigation>
 <div class='page-header'>
   <div class='input-group' id="searchbar">
-    <i class="input-group-addon glyphicon glyphicon-search"></i>
+    <span id="search-icon" class="input-group-addon "><i class="glyphicon glyphicon-search"></i></span>
     <input class='form-control' type="text" placeholder="Search items" ng-model="vm.textFilter" ng-change="vm.onSearch()" focus-me="{{vm.focus}}">
-    <i class="input-group-addon glyphicon glyphicon-remove button button-clear button-small clear-button" ng-show="vm.searchEntered"
-      ng-click="vm.clearSearch()"></i>
+    <span class="input-group-addon" ng-show="vm.searchEntered" ng-click="vm.clearSearch()">
+      <i class="glyphicon glyphicon-remove button-clear clear-button"></i>
+    </span>
   </div>
 
-  <div ng-show="vm.searchEntered" show-val="{{vm.searchEntered}}" id='orderbar' class="well bar-grey smaller clearfix">
-    <span class="col-lg-2 col-xs-2 cursive" align="left">Sort by: </span>
+  <div ng-show="vm.searchEntered" show-val="{{vm.searchEntered}}" id='orderbar' class="well bar-grey smaller clearfix no-top-bot-pad">
+    <span class="col-lg-2 col-xs-2 cursive btn-height" align="left">Sort by: </span>
     <div class='col-lg-10 col-xs-10'>
       <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('name')">NAME <span ng-show="vm.nameOrder">
             <i class="glyphicon glyphicon-triangle-top" ng-show="vm.up"></i><i class="glyphicon glyphicon-triangle-bottom" ng-hide="vm.up"></i></span></a>
@@ -21,6 +22,8 @@
     </div>
   </div>
 </div>
+
+
 
 <div class='container-fluid'>
   <div class=" row no-side-pad div-screen">
@@ -52,11 +55,11 @@
     </ul>
   </div>
 
-  <div class="col-lg-6 col-sm-6 " ng-show="!vm.chosen">
+  <div class="col-lg-6 col-sm-6" ng-show="!vm.chosen">
     <h3 id='no-item'>No item chosen.</h3>
   </div>
 
-  <div class="col-lg-6 col-sm-6 " ng-show="vm.chosen">
+  <div class="col-lg-6 col-sm-6" ng-show="vm.chosen">
     <div class="panel panel-default">
       <div class='container'>
         <div class='row' align='center'>
@@ -104,7 +107,7 @@
       <div align='center' class="panel-heading btn-height">
         <div class='inline'>UPDATES</div>
         <div class='inline pull-right'>
-          <a ng-show="vm.device && !vm.editing" class="btn btn-success" ng-click="vm.updateForm = true">
+          <a ng-show="vm.device && !vm.editing" class="btn btn-success" ng-click="vm.openUpdateModal()">
             <i class="glyphicon glyphicon-plus"></i>
           </a>
         </div>
@@ -138,14 +141,15 @@
 
             <div class="col-lg-3 col-sm-4 col-xs-3" align="right">
 
-              <div ng-hide='vm.updEdit' id="inline-circle" class="circles middle {{update.status}}-status" ng-show="update.status"></div>
-              <button ng-hide='vm.updEdit' ng-click="vm.toEdit(update)" class="btn btn-outline glyphicon glyphicon-pencil" ng-show="vm.canEdit(update.author)"></button>
-              <button ng-hide='vm.updEdit' ng-click="vm.deleteUpdate(update._id)" class="btn btn-outline glyphicon glyphicon-trash" ng-show="vm.canEdit(update.author)"></button>
+              <div id="inline-circle" class="circles middle {{update.status}}-status" ng-hide="!update.status || (vm.updEdit && vm.edUpdate._id == update._id)"></div>
+              <button ng-hide='vm.updEdit && vm.edUpdate._id == update._id' ng-click="vm.toEdit(update)" class="btn btn-outline glyphicon glyphicon-pencil"
+                ng-show="vm.canEdit(update.author)"></button>
+              <button ng-hide='vm.updEdit && vm.edUpdate._id == update._id' ng-click="vm.deleteUpdate(update._id)" class="btn btn-outline glyphicon glyphicon-trash"
+                ng-show="vm.canEdit(update.author)"></button>
               <div>
-                <button ng-click="vm.updEdit = false;" class="btn btn-outline glyphicon glyphicon-remove" ng-show="vm.updEdit"></button>
-
+                <button ng-click="vm.updEdit = false;" class="btn btn-outline glyphicon glyphicon-remove" ng-show="vm.updEdit && vm.edUpdate._id == update._id"></button>
               </div>
-              <div ng-show='vm.updEdit' class="form-group">
+              <div ng-show='vm.updEdit && vm.edUpdate._id == update._id' class="form-group">
                 <div class="col-sm-10 sidepad0 pull-right" uib-dropdown>
                   <button type="button" id='newstatus' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
                     &nbsp;{{vm.status || 'Status'}}&nbsp;<span class="caret"></span>
@@ -166,44 +170,7 @@
     </div>
   </div>
 
-  <div class="col-lg-6 col-sm-6 " ng-show="vm.updateForm">
-    <div class='container'>
-      <ng-form name='updateform' class='form-horizontal'>
-        <div class="form-group">
-          <label for="status" class="col-sm-2 control-label">Status</label>
-          <div class="col-sm-10" uib-dropdown>
-            <button type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
-                    &nbsp;{{vm.status}}&nbsp;<span class="caret"></span>
-                </button>
-            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
-              <li role="menuitem"><a ng-click="vm.setStatus('green', 'OK')">OK</a></li>
-              <li role="menuitem"><a ng-click="vm.setStatus('yellow', 'Limited')">Limited</a></li>
-              <li role="menuitem"><a ng-click="vm.setStatus('blue', 'Reserved')">Reserved</a></li>
-              <li role="menuitem"><a ng-click="vm.setStatus('red', 'Broken')">Broken</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="location" class="col-sm-2 control-label">Location</label>
-          <div class="col-sm-10">
-            <input type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8" class="form-control"
-              id="location" ng-model='vm.update.location'>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="updatemsg" class="col-sm-2 control-label">Update Text</label>
-          <div class="col-sm-10">
-            <textarea type="text" class="form-control" id="updatemsg" ng-model='vm.update.message'></textarea>
-          </div>
-        </div>
 
-        <div align='center'>
-          <button type='button' ng-click='vm.addUpdate()' class='btn btn-success'>Save</button>
-          <button type='button' ng-click='vm.updateForm = false' class='btn btn-success'>Dismiss</button>
-        </div>
-      </ng-form>
-    </div>
-  </div>
 
 </div>
 </div>

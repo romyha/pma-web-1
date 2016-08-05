@@ -1,0 +1,41 @@
+<div class='container'>
+    <div class="modal-header">
+        <h4 class="modal-title">Add update for {{vm.device.name}}</h4>
+    </div>
+    <div class="modal-body">
+        <ng-form name='updateform' class='form-horizontal'>
+            <div class="form-group">
+                <label for="status" class="col-sm-2 control-label">Status</label>
+                <div class="col-sm-10" uib-dropdown>
+                    <button type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
+                    &nbsp;{{vm.status}}&nbsp;<span class="caret"></span>
+                </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
+                        <li role="menuitem"><a ng-click="vm.setStatus('green', 'OK')">OK</a></li>
+                        <li role="menuitem"><a ng-click="vm.setStatus('yellow', 'Limited')">Limited</a></li>
+                        <li role="menuitem"><a ng-click="vm.setStatus('blue', 'Reserved')">Reserved</a></li>
+                        <li role="menuitem"><a ng-click="vm.setStatus('red', 'Broken')">Broken</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location" class="col-sm-2 control-label">Location</label>
+                <div class="col-sm-10">
+                    <input type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8" class="form-control"
+                        id="location" ng-model='vm.update.location'>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="updatemsg" class="col-sm-2 control-label">Update Text</label>
+                <div class="col-sm-10">
+                    <textarea type="text" class="form-control" id="updatemsg" ng-model='vm.update.message'></textarea>
+                </div>
+            </div>
+
+            <div align='center'>
+                <button type='button' ng-click='vm.addUpdate()' class='btn btn-success'>Save</button>
+                <button type='button' ng-click='vm.dismiss()' class='btn btn-success'>Dismiss</button>
+            </div>
+        </ng-form>
+    </div>
+</div>

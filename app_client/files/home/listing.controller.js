@@ -2,7 +2,7 @@
     angular.module("pm").controller("listingCtrl", listingCtrl);
 
 
-    function listingCtrl($stateParams, $rootScope, $state, $location, $scope, deviceData, store, authentication, popup) {
+    function listingCtrl($stateParams, $rootScope, $state, $location, $scope, deviceData, store, authentication, popup, $uibModal) {
         var vm = this;
         var image;
         var noImgPath = "../../img/No-image-found.jpg";
@@ -59,7 +59,7 @@
             return !vm.textFilter || re.test(obj.name) || re.test(obj.location) || re.test(author) || re.test(obj.status) || re.test(obj.code.toString());
         }
 
-        function doRefresh () {
+        function doRefresh() {
             deviceData.devices().success(function (data) {
                 vm.devices = data;
                 if (vm.devicecode) {
@@ -137,7 +137,7 @@
             vm.locOrder = false;
         };
 
-        
+
 
         vm.onActive = function (value) {
             if (value == 'out') {
@@ -296,21 +296,33 @@
             vm.color = color;
         };
 
-        vm.addUpdate = function () {
-            deviceData.addUpdateById(vm.device._id, {
-                author: author,
-                location: vm.update.location,
-                date: new Date(),
-                status: vm.color,
-                message: vm.update.message
-            }).success(function (data) {
-                doRefresh();
-                vm.toItemInfo(vm.devicecode);
-            });
-        };
+        
 
         vm.scan = function () {
             alert('Not yet scanning from browser.');
         };
+
+        vm.openUpdateModal = function () {
+            $uibModal.open({
+                animation: true,
+                templateUrl: '/files/addPages/addUpdate.modal.html',
+                controller: 'updateCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    locations: function () {
+                        return vm.locations;
+                    },
+                    author: function () {
+                        return author;
+                    },
+                    device: function () {
+                        return vm.device;
+                    },
+                    doRefresh: function () {
+                        return doRefresh;
+                    }
+                }
+            });
+        }
     }
 })();
