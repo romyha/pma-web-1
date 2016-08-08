@@ -6,7 +6,7 @@ function updateCtrl(locations, author, device, doRefresh, $uibModalInstance, dev
     vm.locations = locations;
 
     vm.dismiss = function () {
-        $uibModalInstance.dismiss('dismiss');
+        $uibModalInstance.close();
     };
 
     vm.setStatus = function (color, status) {
@@ -14,11 +14,19 @@ function updateCtrl(locations, author, device, doRefresh, $uibModalInstance, dev
         vm.color = color;
     };
 
+    vm.dateOptions = {
+        maxDate: new Date()
+    };
+
+    vm.update = {};
+
+    vm.update.date = new Date();
+
     vm.addUpdate = function () {
         deviceData.addUpdateById(vm.device._id, {
             author: author,
             location: vm.update.location,
-            date: new Date(),
+            date: vm.update.date,
             status: vm.color,
             message: vm.update.message
         }).success(function (data) {
