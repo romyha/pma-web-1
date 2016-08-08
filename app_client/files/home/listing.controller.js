@@ -2,10 +2,12 @@
     angular.module("pm").controller("listingCtrl", listingCtrl);
 
 
-    function listingCtrl($stateParams, $rootScope, $state, $location, $scope, deviceData, store, authentication, popup, $uibModal) {
+    function listingCtrl($timeout, $animate, $stateParams, $rootScope, $state, $location, $scope, deviceData, store, authentication, popup, $uibModal) {
         var vm = this;
         var image;
         var noImgPath = "../../img/No-image-found.jpg";
+
+
 
         if (authentication.currentUser()) {
             var author = authentication.currentUser().name;
@@ -213,6 +215,16 @@
             vm.editing = true;
         };
 
+        vm.deleteDevice = function () {
+            var confirmed = window.confirm('Are you sure to delete this device?');
+            if (confirmed) {
+                deviceData.deleteById(vm.device._id).success(function () {
+                    doRefresh();
+                    vm.chosen = '';
+                });
+            }
+        };
+
         vm.saveDevice = function () {
             var device = {
                 name: vm.newName,
@@ -276,17 +288,22 @@
             vm.color = update.status;
             //Copy update to edUpdate
             vm.edUpdate = Object.assign({}, update);
+            vm.edUpdate.date = new Date(update.date);
         };
 
-        vm.openPopup = function (id) {
+        vm.openPopup = function (id, date) {
             if (vm.edUpdate) {
                 vm.opened = vm.edUpdate._id == id
             }
+            vm.dateOptions = {
+                initDate: date,
+                maxDate: new Date()
+            };
         }
 
         vm.canEdit = function (author) {
             if ($rootScope.testMode) return false;
-            if ((authentication.currentUser() && authentication.currentUser().name == author) || author == "test user" || (store.get('profile') && author == store.get('profile').email)) {
+            if (authentication.currentUser().name == author) {
                 return true;
             } else return false;
         };
@@ -296,14 +313,12 @@
             vm.color = color;
         };
 
-        
-
         vm.scan = function () {
             alert('Not yet scanning from browser.');
         };
 
         vm.openUpdateModal = function () {
-            $uibModal.open({
+            var updateModal = $uibModal.open({
                 animation: true,
                 templateUrl: '/files/addPages/addUpdate.modal.html',
                 controller: 'updateCtrl',
@@ -323,6 +338,15 @@
                     }
                 }
             });
-        }
+
+            updateModal.result.finally(function () {
+                $timeout(function () {
+                    $('.modal:last').trigger('$animate:close');
+                    $timeout(function () {
+                        $('.modal-backdrop:last').trigger('$animate:close');
+                    }, 0);
+                }, 0);
+            });
+        };
     }
 })();
