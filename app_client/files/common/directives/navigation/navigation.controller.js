@@ -3,7 +3,7 @@ angular.module('pm').controller('navigationCtrl', navigationCtrl);
 function navigationCtrl($location, authentication) {
     var nvm = this;
 
-
+    nvm.user = authentication.currentUser().email;
 
 
     nvm.tabs = [
