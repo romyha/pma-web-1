@@ -41,6 +41,11 @@
                     email: payload.profile.email,
                     name: name
                 };
+            } else if ($rootScope.testMode) {
+                return {
+                    email: "test@user.com",
+                    name: "Test User"
+                }
             }
         };
 
