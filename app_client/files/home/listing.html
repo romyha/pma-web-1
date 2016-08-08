@@ -66,6 +66,9 @@
           <a ng-show="vm.device && !vm.editing" class="btn btn-success" ng-click="vm.editDevice()">
             <i class="bottom-button icon ion-edit"></i>&nbsp;Edit
           </a>
+          <a ng-show="vm.device && !vm.editing" class="btn btn-danger" ng-click="vm.deleteDevice()">
+            <i class="bottom-button icon ion-edit"></i>Delete
+          </a>
           <a ng-show="vm.editing" class="btn btn-success" ng-click="vm.editing=false">
             <i class="icon fa fa-times"></i>&nbsp;Dismiss
           </a>
@@ -75,23 +78,34 @@
         </div>
         <div class="row">
           <div class="col-lg-8 col-sm-7 col-xs-6">
-            <h4>Name: <span ng-hide='vm.editing'>{{vm.device.name}}</span>
-              <input class='form-control' name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'></h4>
-            <h4>Code: <span ng-hide='vm.editing'>{{vm.devicecode}} </span>
-              <input class='form-control' name="code" type="text" ng-model="vm.itemCode" ng-show='vm.editing'></h4>
-            <h4><i class="syn-blue glyphicon glyphicon-refresh"></i> {{vm.device.updates[0].date || vm.device.lastModified |
+            <div class="more-bot-margin">
+              <span class="bold">Name: </span><span ng-hide='vm.editing'>{{vm.device.name}}</span>
+              <input class='form-control' name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'>
+            </div>
+            <div class="more-bot-margin">
+              <span class="bold">Code: </span><span ng-hide='vm.editing'>{{vm.devicecode}} </span>
+              <input class='form-control' name="code" type="text" ng-model="vm.itemCode" ng-show='vm.editing'>
+            </div>
+            <div class="more-bot-margin">
+              <span class="bold"><i class="syn-blue glyphicon glyphicon-refresh"></i> {{vm.device.updates[0].date || vm.device.lastModified |
               date : "dd.MM.yyyy"}}
               <span ng-show="vm.device.updates.length>0"> by
-                        {{vm.device.updates[0].author | formatUser}}</span></h4>
-            <h4><i ng-hide='vm.editing' class="syn-red glyphicon glyphicon-map-marker"></i>
+                        {{vm.device.updates[0].author | formatUser}}</span></span>
+            </div>
+            <div class="more-bot-margin">
+              <span class="bold"><i ng-hide='vm.editing || !vm.device.location' class="syn-red glyphicon glyphicon-map-marker"></i>
               <span ng-hide='vm.editing'>{{vm.device.location}} </span>
               <span ng-show='vm.editing'>Location:</span>
               <input class='form-control' name="location" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8"
                 type="text" ng-model="vm.location" ng-show='vm.editing' ng-change='vm.checkIfEmpty()'>
-            </h4>
-            <p ng-show="vm.device.description && !vm.editing" class="breaktext">{{vm.device.description}}</p>
-            <textarea class='form-control' name="description" ng-model="vm.itemDescr" ng-show='vm.editing' placeholder='Description'></textarea>
-            <div ng-style="vm.style" class="{{vm.device.status}}-status circles" ng-show="vm.device.status"></div>
+              </span>
+            </div>
+            <div class="more-bot-margin">
+              <span class="bold" ng-show="vm.device.description || vm.editing">Description:</span>
+              <p ng-show="vm.device.description && !vm.editing" class="breaktext inline">{{vm.device.description}}</p>
+              <textarea class='form-control' name="description" ng-model="vm.itemDescr" ng-show='vm.editing'></textarea>
+            </div>
+            <div ng-style="vm.style" class="{{vm.device.status}}-status circles more-margin" ng-show="vm.device.status"></div>
           </div>
 
           <div class="col-lg-4 col-sm-5 col-xs-6" align="right">
@@ -114,7 +128,7 @@
         <div class='clearfix'></div>
       </div>
 
-      <ul class="list-group">
+      <ul class="list-group scrollable">
         <li class="list-group-item" ng-repeat="update in vm.device.updates | orderBy : '-date'" ng-model="vm.device.update">
           <div class="row row-eq-height">
             <div class='col-lg-9 col-sm-8 col-xs-9'>
@@ -125,7 +139,7 @@
                 <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open='vm.opened' ng-model="vm.edUpdate.date"
                   datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" />
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="vm.openPopup(update._id)"><i class="glyphicon glyphicon-calendar"></i></button>
+                  <button type="button" class="btn btn-default" ng-click="vm.openPopup(update._id, update.date)"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
               </p>
               <div class="breaktext" ng-show="update.message" ng-hide='vm.updEdit && vm.edUpdate._id == update._id'>
@@ -142,10 +156,10 @@
             <div class="col-lg-3 col-sm-4 col-xs-3" align="right">
 
               <div id="inline-circle" class="circles middle {{update.status}}-status" ng-hide="!update.status || (vm.updEdit && vm.edUpdate._id == update._id)"></div>
-              <button ng-hide='vm.updEdit && vm.edUpdate._id == update._id' ng-click="vm.toEdit(update)" class="btn btn-outline glyphicon glyphicon-pencil"
-                ng-show="vm.canEdit(update.author)"></button>
-              <button ng-hide='vm.updEdit && vm.edUpdate._id == update._id' ng-click="vm.deleteUpdate(update._id)" class="btn btn-outline glyphicon glyphicon-trash"
-                ng-show="vm.canEdit(update.author)"></button>
+              <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.toEdit(update)"
+                class="btn btn-outline glyphicon glyphicon-pencil"></button>
+              <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.deleteUpdate(update._id)"
+                class="btn btn-outline glyphicon glyphicon-trash"></button>
               <div>
                 <button ng-click="vm.updEdit = false;" class="btn btn-outline glyphicon glyphicon-remove" ng-show="vm.updEdit && vm.edUpdate._id == update._id"></button>
               </div>
