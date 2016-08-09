@@ -7,8 +7,6 @@
         var image;
         var noImgPath = "../../img/No-image-found.jpg";
 
-
-
         if (authentication.currentUser()) {
             var author = authentication.currentUser().name;
         }
@@ -219,8 +217,10 @@
             var confirmed = window.confirm('Are you sure to delete this device?');
             if (confirmed) {
                 deviceData.deleteById(vm.device._id).success(function () {
+                    $location.search('code', null);
                     doRefresh();
                     vm.chosen = '';
+
                 });
             }
         };
@@ -337,15 +337,6 @@
                         return doRefresh;
                     }
                 }
-            });
-
-            updateModal.result.finally(function () {
-                $timeout(function () {
-                    $('.modal:last').trigger('$animate:close');
-                    $timeout(function () {
-                        $('.modal-backdrop:last').trigger('$animate:close');
-                    }, 0);
-                }, 0);
             });
         };
     }
