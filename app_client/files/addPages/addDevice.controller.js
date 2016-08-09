@@ -1,8 +1,8 @@
 (function () {
     angular.module("pm").controller("addDeviceCtrl", addDeviceCtrl);
 
-    addDeviceCtrl.$inject = ['$rootScope', '$location', 'deviceData', '$routeParams', '$scope', 'store'];
-    function addDeviceCtrl($rootScope, $location, deviceData, $routeParams, $scope, store) {
+    addDeviceCtrl.$inject = ['$rootScope', '$location', 'deviceData', '$routeParams', '$scope', 'store', 'authentication'];
+    function addDeviceCtrl($rootScope, $location, deviceData, $routeParams, $scope, store, authentication) {
         var vm = this;
         vm.device = {};
         var img;
@@ -53,6 +53,7 @@
 
         function saveItem(createNext) {
             var deviceToSave = {
+                creator: authentication.currentUser().name,
                 name: vm.device.name,
                 description: vm.device.description,
                 status: vm.color,
@@ -65,14 +66,16 @@
             }
 
             deviceData.addDevice(deviceToSave).success(function (device) {
-                if (!(vm.locations.indexOf(vm.device.location) > -1)) {
+                if (vm.device.location && !(vm.locations.indexOf(vm.device.location) > -1)) {
                     deviceData.addLocation({
                         name: vm.device.location
                     });
                 }
                 afterSave(createNext);
             }).error(function (err) {
+                console.log(err);
                 if (err.errmsg) {
+                    
                     if (err.errmsg.indexOf('name') > -1 && err.errmsg.indexOf('dup key') > -1) {
                         vm.nameerror = "This name already exists.";
                     }
@@ -89,7 +92,9 @@
             if (createNext) {
                 vm.device.code = "";
             } else {
-                $location.path("/devices?code=" + vm.device.code);
+                var code = vm.device.code;
+                $location.search('code', code);
+                $location.path("/");
             }
         }
 
