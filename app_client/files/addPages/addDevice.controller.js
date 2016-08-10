@@ -1,8 +1,8 @@
 (function () {
     angular.module("pm").controller("addDeviceCtrl", addDeviceCtrl);
 
-    addDeviceCtrl.$inject = ['$rootScope', '$location', 'deviceData', '$routeParams', '$scope', 'store', 'authentication'];
-    function addDeviceCtrl($rootScope, $location, deviceData, $routeParams, $scope, store, authentication) {
+    addDeviceCtrl.$inject = ['$uibModal', '$rootScope', '$location', 'deviceData', '$routeParams', '$scope', 'store', 'authentication'];
+    function addDeviceCtrl($uibModal, $rootScope, $location, deviceData, $routeParams, $scope, store, authentication) {
         var vm = this;
         vm.device = {};
         var img;
@@ -75,7 +75,7 @@
             }).error(function (err) {
                 console.log(err);
                 if (err.errmsg) {
-                    
+
                     if (err.errmsg.indexOf('name') > -1 && err.errmsg.indexOf('dup key') > -1) {
                         vm.nameerror = "This name already exists.";
                     }
@@ -114,7 +114,28 @@
         };
 
         vm.scan = function () {
-            alert('Not yet able to scan');
-        }
+            var scanModal = $uibModal.open({
+                animation: true,
+                templateUrl: "/files/home/scan.html",
+                controller: 'scanCtrl',
+                controllerAs: 'vm'
+            });
+
+            scanModal.closed.then(function () {
+                Quagga.stop();
+            });
+
+            scanModal.result.then(function (result) {
+                if (!isNaN(result)) {
+                    deviceData.deviceByCode(result).success(function (device) {
+                        alert('This code already exists!');
+                    }).error(function (err) {
+                        vm.device.code = result;
+                    });
+                } else {
+                    alert('No valid code detected.');
+                }
+            });
+        };
     }
 })();
