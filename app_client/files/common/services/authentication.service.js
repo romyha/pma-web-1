@@ -68,7 +68,7 @@
         };
 
         logSynapticon = function () {
-            var loginPopup = $window.open(apiUrl + '/loginsncn', 'Login', 'width=' + popupWidth + 'px,height=600px');
+            var loginPopup = $window.open(apiUrl + '/loginsncn', 'Login');
             $window.addEventListener('message', function (event) {
                 saveToken(event.data);
                 loginPopup.close();
@@ -79,7 +79,7 @@
 
         logout = function () {
             $window.localStorage.removeItem('pma-token');
-            var logoutPopup = window.open('https://account.synapticon.com', 'Logout', 'width=' + popupWidth + 'px,height=600px');
+            var logoutPopup = window.open('https://account.synapticon.com', 'Logout');
             
         };
 
