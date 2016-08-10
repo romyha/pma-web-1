@@ -442,3 +442,25 @@ form {
 html, body {
     background-color: rgb(250,250,250) !important;
 }
+
+.no-right-marg {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+}
+
+.no-left-marg {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+.fill-height {
+    min-height: 100% !important;
+   
+    /*max-height: 50% !important;
+    bottom: 0;*/
+}
+
+.resizable {
+    resize: horizontal;
+    overflow: auto;
+}
