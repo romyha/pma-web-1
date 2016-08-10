@@ -464,3 +464,11 @@ html, body {
     resize: horizontal;
     overflow: auto;
 }
+
+video {
+    max-width: 100%;
+}
+
+canvas {
+    display: none !important;
+}

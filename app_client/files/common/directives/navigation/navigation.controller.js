@@ -1,6 +1,6 @@
 angular.module('pm').controller('navigationCtrl', navigationCtrl);
 
-function navigationCtrl($location, authentication) {
+function navigationCtrl($location, $uibModal, authentication, deviceData) {
     var nvm = this;
 
     nvm.user = authentication.currentUser().email;
@@ -35,5 +35,18 @@ function navigationCtrl($location, authentication) {
         authentication.logout();
         // $scope.isLoggedIn = authentication.isLoggedIn();
         $location.path("/login");
+    };
+
+    nvm.camScan = function () {
+        var scanModal = $uibModal.open({
+            animation: true,
+            templateUrl: "/files/home/scan.html",
+            controller: 'scanCtrl',
+            controllerAs: 'vm'
+        });
+
+        scanModal.closed.then(function () {
+            Quagga.stop();
+        });
     };
 }

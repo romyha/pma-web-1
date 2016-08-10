@@ -5,27 +5,27 @@
     <div class="col-lg-6 col-sm-6 container no-side-pad no-right-marg" ng-hide='vm.updateForm'>
       <div class='more-bot-margin container-fluid'>
         <div class="row">
-            <div class='input-group' id="searchbar">
-              <span id="search-icon" class="input-group-addon "><i class="glyphicon glyphicon-search"></i></span>
-              <input class='form-control' type="text" placeholder="Search items" ng-model="vm.textFilter" ng-change="vm.onSearch()" focus-me="{{vm.focus}}">
-              <span class="input-group-addon" ng-show="vm.searchEntered" ng-click="vm.clearSearch()">
+          <div class='input-group' id="searchbar">
+            <span id="search-icon" class="input-group-addon "><i class="glyphicon glyphicon-search"></i></span>
+            <input class='form-control' type="text" placeholder="Search items" ng-model="vm.textFilter" ng-change="vm.onSearch()" focus-me="{{vm.focus}}">
+            <span class="input-group-addon" ng-show="vm.searchEntered" ng-click="vm.clearSearch()">
                 <i class="glyphicon glyphicon-remove button-clear clear-button"></i>
               </span>
-            </div>
+          </div>
 
-            <div ng-show="vm.searchEntered" show-val="{{vm.searchEntered}}" id='orderbar' class="well bar-grey smaller clearfix no-top-bot-pad">
-              <span class="col-lg-2 col-xs-2 cursive btn-height" align="left">Sort by: </span>
-              <div class='col-lg-10 col-xs-10'>
-                <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('name')">NAME <span ng-show="vm.nameOrder">
+          <div ng-show="vm.searchEntered" show-val="{{vm.searchEntered}}" id='orderbar' class="well bar-grey smaller clearfix no-top-bot-pad">
+            <span class="col-lg-2 col-xs-2 cursive btn-height" align="left">Sort by: </span>
+            <div class='col-lg-10 col-xs-10'>
+              <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('name')">NAME <span ng-show="vm.nameOrder">
             <i class="glyphicon glyphicon-triangle-top" ng-show="vm.up"></i><i class="glyphicon glyphicon-triangle-bottom" ng-hide="vm.up"></i></span></a>
-                <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('lastUpdate')">DATE <span ng-show="vm.dateOrder">
+              <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('lastUpdate')">DATE <span ng-show="vm.dateOrder">
             <i class="glyphicon glyphicon-triangle-top" ng-show="vm.up"></i><i class="glyphicon glyphicon-triangle-bottom" ng-hide="vm.up"></i></span></a>
-                <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('location')">LOCATION <span ng-show="vm.locOrder">
+              <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('location')">LOCATION <span ng-show="vm.locOrder">
             <i class="glyphicon glyphicon-triangle-top" ng-show="vm.up"></i><i class="glyphicon glyphicon-triangle-bottom" ng-hide="vm.up"></i></span></a>
-                <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('status')">STATUS <span ng-show="vm.stateOrder">
+              <a align="center" class="col-lg-3 col-xs-3 btn button-black" ng-click="vm.sort('status')">STATUS <span ng-show="vm.stateOrder">
             <i class="glyphicon glyphicon-triangle-top" ng-show="vm.up"></i><i class="glyphicon glyphicon-triangle-bottom" ng-hide="vm.up"></i></span></a>
-              </div>
             </div>
+          </div>
         </div>
       </div>
       <ul class='list-group'>
@@ -182,8 +182,7 @@
       </ul>
     </div>
   </div>
-
-
-
 </div>
 </div>
+
+<!--<div class="col-lg-12" align="center" id="barcode"></div>-->

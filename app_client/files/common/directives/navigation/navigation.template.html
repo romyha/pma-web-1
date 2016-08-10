@@ -17,6 +17,19 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
+                <li class="dropdown" uib-dropdown>
+                        <a href id="simple-dropdown" uib-dropdown-toggle>
+                            Scan Code <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                            <li>
+                                <a href ng-click="nvm.camScan()">Webcam</a>
+                            </li>
+                            <li>
+                                <a href>Scanner</a>
+                            </li>
+                        </ul>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
