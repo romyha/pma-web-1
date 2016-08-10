@@ -48,5 +48,18 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
         scanModal.closed.then(function () {
             Quagga.stop();
         });
+
+        scanModal.result.then(function (result) {
+            if (!isNaN(result)) {
+                deviceData.deviceByCode(result).success(function (device) {
+                    $location.search("code", result);
+                    $location.path('');
+                }).error(function (err) {
+                        $location.path('/devices/' + result + '/new');
+                });
+            } else {
+                alert('No valid code detected.');
+            }
+        });
     };
 }

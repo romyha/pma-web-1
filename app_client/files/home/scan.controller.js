@@ -1,15 +1,12 @@
 angular.module('pm').controller("scanCtrl", scanCtrl);
 
-function scanCtrl() {
+function scanCtrl($uibModalInstance) {
     setTimeout(function () {
         Quagga.init({
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                target: document.querySelector('#barcode')    // Or '#yourElement' (optional)
-            },
-            locator: {
-                patchSize: "small"
+                target: document.querySelector('#barcode')
             },
             decoder: {
                 readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "codabar_reader"]
@@ -28,14 +25,7 @@ function scanCtrl() {
             var code = data.codeResult.code;
             Quagga.stop();
 
-            deviceData.deviceByCode(code).success(function (device) {
-                $location.search("code", code);
-                $location.path('');
-            }).error(function (err) {
-                if (!isNaN(code)) {
-                    $location.path('/devices/' + code + '/new');
-                }
-            });
+            $uibModalInstance.close(code);
         });
     }, 100);
 
