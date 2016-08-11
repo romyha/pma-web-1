@@ -396,7 +396,7 @@ form {
     border-radius: 9px;
 }
 
-#no-item {
+.no-item {
     text-align: center;
     color: rgb(200, 200, 200);
 }
