@@ -20,7 +20,6 @@
         });
 
         vm.toItemInfo = function (code) {
-            // $location.search('code', code);
             vm.updateForm = false;
             vm.activeItem = code;
             vm.chosen = true;
@@ -77,6 +76,10 @@
                         buildStatusHistory(vm.device);
                     });
                 }
+            });
+
+            deviceData.locations().success(function (locations) {
+                vm.locations = locations;
             });
         };
 
