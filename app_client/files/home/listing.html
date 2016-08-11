@@ -28,13 +28,20 @@
           </div>
         </div>
       </div>
+      <div class="no-item" ng-show="vm.devices.length==0">
+        <h3 class=''>No data.</h3>
+        <a class="btn btn-success" href="/devices/code/new">
+          <i class="glyphicon glyphicon-plus"></i>&nbsp;Add
+        </a>
+      </div>
+      <div class="no-item" ng-show="!vm.devices">
+        <h3 class=''>Couldn't receive items. Something went wrong.</h3>
+        <a class="btn btn-success" href="/devices/code/new">
+          <i class="glyphicon glyphicon-plus"></i>&nbsp;Add
+        </a>
+      </div>
       <ul class='list-group'>
-        <div class="col-lg-6 col-sm-6" ng-show="!vm.devices">
-          <h3 class='no-item'>No items in database.</h3>
-          <a class="btn btn-success" href="/devices/code/new">
-            <i class="glyphicon glyphicon-plus"></i>&nbsp;Add
-          </a>
-        </div>
+
         <div ng-repeat="device in vm.devices | filter : vm.searchFilter | orderBy : vm.order : vm.reverse">
           <a ng-class="{'active': vm.activeItem===device.code}" class="container list-group-item com-list-item" ng-click="vm.toItemInfo(device.code)">
             <div class="row row-center fill-height">
