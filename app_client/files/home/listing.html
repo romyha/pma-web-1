@@ -30,9 +30,9 @@
       </div>
       <ul class='list-group'>
         <div ng-repeat="device in vm.devices | filter : vm.searchFilter | orderBy : vm.order : vm.reverse">
-          <a ng-class="{'active': vm.activeItem===device.code}" class="container list-group-item" ng-click="vm.toItemInfo(device.code)">
-            <div class="row row-center">
-              <span class="col-lg-11 col-sm-11">
+          <a ng-class="{'active': vm.activeItem===device.code}" class="container list-group-item com-list-item" ng-click="vm.toItemInfo(device.code)">
+            <div class="row row-center fill-height">
+              <span class="col-lg-11 col-sm-11 fill-height">
               <div class="ellipsis no-left-pad">{{device.name}}</div>
               <div>
                 <i class="syn-blue glyphicon glyphicon-refresh"></i>
@@ -44,8 +44,9 @@
               <i class="syn-red glyphicon glyphicon-map-marker"></i> {{device.location}}
             </div>
             </span>
-            <div class="col-lg-1 col-sm-1" align='right'>
-              <span class="circles {{device.status}}-status" ng-show="device.status"></span>
+            <div class="col-lg-1 col-sm-1 fill-height" align='right'>
+              <!--<span class="circles {{device.status}}-status" ng-show="device.status"></span>-->
+              <div class="{{device.status}}-status fill-height max-w-20" ng-show="device.status"></div>
             </div>
             <span align="right"><i class="col col-center larger ion-chevron-right"></i></span>
         </div>
@@ -59,30 +60,30 @@
   </div>
 
   <div class="col-lg-6 col-sm-6 no-left-marg fill-height" ng-show="vm.chosen">
-    <div class="panel panel-default">
-      <div class='container'>
+    <div id="open-panel" class="panel panel-default">
+      <div class='container more-margin'>
         <div class='row' align='center'>
           <a ng-show="vm.device && !vm.editing" class="btn btn-success" ng-click="vm.editDevice()">
-            <i class="bottom-button icon ion-edit"></i>&nbsp;Edit
+            <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
           </a>
           <a ng-show="vm.device && !vm.editing" class="btn btn-danger" ng-click="vm.deleteDevice()">
-            <i class="bottom-button icon ion-edit"></i>Delete
+            <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
           </a>
-          <a ng-show="vm.editing" class="btn btn-success" ng-click="vm.editing=false">
-            <i class="icon fa fa-times"></i>&nbsp;Dismiss
+          <a ng-show="vm.editing" class="btn btn-danger" ng-click="vm.editing=false">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;Dismiss
           </a>
           <a ng-show="vm.editing" class="btn btn-success" ng-click="vm.saveDevice()">
-            <i class="icon fa fa-floppy-o"></i>&nbsp;Save
+            <i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Save
           </a>
         </div>
         <div class="row">
           <div class="col-lg-8 col-sm-7 col-xs-6">
             <div class="more-bot-margin">
-              <span class="bold">Name: </span><span ng-hide='vm.editing'>{{vm.device.name}}</span>
+              <span class="bold wide">Name: </span><span ng-hide='vm.editing'>{{vm.device.name}}</span>
               <input class='form-control' name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'>
             </div>
             <div class="more-bot-margin">
-              <span class="bold">Code: </span><span ng-hide='vm.editing'>{{vm.devicecode}} </span>
+              <span class="bold wide">Code: </span><span class="left-space" ng-hide='vm.editing'>{{vm.devicecode}} </span>
               <input class='form-control' name="code" type="text" ng-model="vm.itemCode" ng-show='vm.editing'>
             </div>
             <div class="more-bot-margin">
@@ -154,7 +155,7 @@
 
             <div class="col-lg-3 col-sm-4 col-xs-3" align="right">
 
-              <div id="inline-circle" class="circles middle {{update.status}}-status" ng-hide="!update.status || (vm.updEdit && vm.edUpdate._id == update._id)"></div>
+              <div id="inline-circle" class="circles small-circle middle {{update.status}}-status" ng-hide="!update.status || (vm.updEdit && vm.edUpdate._id == update._id)"></div>
               <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.toEdit(update)"
                 class="btn btn-outline glyphicon glyphicon-pencil"></button>
               <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.deleteUpdate(update._id)"
