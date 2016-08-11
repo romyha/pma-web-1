@@ -16,8 +16,8 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
         {
             name: 'Add Item',
             index: 2,
-            path: '/devices/3/new',
-            href: '#/devices/3/new'
+            path: '/devices/code/new',
+            href: '#/devices/code/new'
         }
     ];
 
