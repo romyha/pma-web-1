@@ -36,9 +36,6 @@
       </div>
       <div class="no-item" ng-show="!vm.devices">
         <h3 class=''>Couldn't receive items. Something went wrong.</h3>
-        <a class="btn btn-success" href="/devices/code/new">
-          <i class="glyphicon glyphicon-plus"></i>&nbsp;Add
-        </a>
       </div>
       <ul class='list-group'>
 
@@ -68,7 +65,7 @@
     </ul>
   </div>
 
-  <div class="col-lg-6 col-sm-6" ng-show="!vm.chosen">
+  <div class="col-lg-6 col-sm-6" ng-show="!vm.chosen" ng-hide="!vm.devices || vm.devices.length==0">
     <h3 class='no-item'>No item chosen.</h3>
   </div>
 
