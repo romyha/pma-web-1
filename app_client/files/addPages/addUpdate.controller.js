@@ -30,6 +30,11 @@ function updateCtrl(locations, author, device, doRefresh, $uibModalInstance, dev
             status: vm.color,
             message: vm.update.message
         }).success(function (data) {
+            if (!(vm.locations.indexOf(vm.update.location) > -1)) {
+                deviceData.addLocation({
+                    name: vm.update.location
+                });
+            }
             doRefresh();
             vm.dismiss();
         });
