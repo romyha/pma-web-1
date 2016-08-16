@@ -29,3 +29,6 @@ benchmarks/graphs
 .env
 
 .vs_code*
+.DS_Store
+
+app_client/.DS_Store
