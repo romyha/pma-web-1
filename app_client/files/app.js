@@ -1,4 +1,4 @@
-angular.module('pm', ['ngRoute', 'ngResource', 'ui.router', 'ui.bootstrap', 'angular-storage', 'angular-jwt'])
+angular.module('pm', ['ngRoute', 'ngAnimate', 'ngResource', 'ui.router', 'ui.bootstrap', 'angular-storage', 'angular-jwt'])
 
     .constant('pmaServiceApiUrl', 'http://localhost:3000/api')
 

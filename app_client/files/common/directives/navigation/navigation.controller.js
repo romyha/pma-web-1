@@ -5,7 +5,6 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
 
     nvm.user = authentication.currentUser().email;
 
-
     nvm.tabs = [
         {
             name: 'Recent Items',

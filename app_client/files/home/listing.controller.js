@@ -6,6 +6,7 @@
         var vm = this;
         var image;
         var noImgPath = "../../img/No-image-found.jpg";
+        vm.updateImgPath = "../../img/No-image-found.jpg";
 
         if (authentication.currentUser()) {
             var author = authentication.currentUser().name;
@@ -36,7 +37,25 @@
                     vm.path = data.image;
                 }
                 buildStatusHistory(vm.device);
+                $scope.isOpen = [];
+                vm.device.updates.forEach(function (update, index) {
+                    $scope.isOpen.push(false);
+                });
+                $scope.$watch('isOpen', function () {
+                    var open = $scope.isOpen.indexOf(true);
+                    vm.open = open;
+                }, true);
             });
+
+
+        };
+
+        vm.infoStyle = function () {
+            var infoHeight = document.getElementById('item-info').offsetHeight + 'px';
+            document.getElementsByTagName('img')[0].height = infoHeight;
+            return {
+                'max-height': infoHeight
+            };
         };
 
         if ($location.search().code) {
@@ -269,21 +288,33 @@
             });
         };
 
-        setImgFile = function () {
-            vm.path = URL.createObjectURL(event.target.files[0]);
+        setImgFile = function (item) {
+            var chooser;
+            if (item == "update") {
+                vm.edUpdate.image = URL.createObjectURL(event.target.files[0]);
+                chooser = document.getElementById('upd-chooser');
+                vm.uploadedUpd = true;
+            } else {
+                vm.path = URL.createObjectURL(event.target.files[0]);
+                chooser = document.getElementById('file-chooser');
+                vm.uploaded = true;
+            }
 
-            var chooser = document.getElementById('file-chooser');
             var file = chooser.files[0];
             if (file) {
                 image = file;
-                vm.uploaded = true;
             }
             $scope.$apply();
         };
 
-        vm.removeImg = function () {
-            vm.path = '../../img/No-image-found.jpg';
-            vm.uploaded = false;
+        vm.removeImg = function (item) {
+            if (item == 'device') {
+                vm.path = '../../img/No-image-found.jpg';
+                vm.uploaded = false;
+            } else {
+                vm.edUpdate.image = '';
+                vm.uploadedUpd = false;
+            }
         };
 
         vm.toEdit = function (update) {
@@ -292,6 +323,23 @@
             //Copy update to edUpdate
             vm.edUpdate = Object.assign({}, update);
             vm.edUpdate.date = new Date(update.date);
+        };
+
+        vm.editUpdate = function (update) {
+            var edited = {
+                author: author,
+                message: vm.edUpdate.message,
+                date: vm.edUpdate.date,
+                status: vm.updStatus,
+                location: vm.edUpdate.location
+            };
+            deviceData.editUpdateById(vm.device._id, update._id, edited).success(function (update) {
+                if (vm.edUpdate.image != update.image) {
+                    deviceData.uploadUpdatePicture(vm.device._id, update._id, image);
+                }
+                vm.updEdit = false;
+                doRefresh();
+            });
         };
 
         vm.openPopup = function (id, date) {
@@ -311,8 +359,12 @@
             } else return false;
         };
 
-        vm.setStatus = function (color, status) {
-            vm.status = status;
+        vm.setStatus = function (color, status, item) {
+            if (item == "update") {
+                vm.updStatus = status;
+            } else {
+                vm.status = status;
+            }
             vm.color = color;
         };
 

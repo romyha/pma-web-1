@@ -71,7 +71,7 @@
 
   <div class="col-lg-6 col-sm-6 no-left-marg fill-height" ng-show="vm.chosen">
     <div id="open-panel" class="panel panel-default">
-      <div class='container more-margin'>
+      <div class='container more-bot-margin'>
         <div class='row' align='center'>
           <a ng-show="vm.device && !vm.editing" class="btn btn-success" ng-click="vm.editDevice()">
             <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
@@ -87,7 +87,7 @@
           </a>
         </div>
         <div class="row">
-          <div class="col-lg-8 col-sm-7 col-xs-6">
+          <div id="item-info" class="col-lg-8 col-sm-7 col-xs-6">
             <div class="more-bot-margin">
               <span class="bold wide">Name: </span><span ng-hide='vm.editing'>{{vm.device.name}}</span>
               <input class='form-control' name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'>
@@ -119,10 +119,10 @@
           </div>
 
           <div class="col-lg-4 col-sm-5 col-xs-6" align="right">
-            <img class="img-responsive img-rounded" src="{{vm.path}}">
+            <img ng-style="vm.infoStyle()" class="img-responsive img-rounded" src="{{vm.path}}">
             <span ng-show='vm.editing'>
-            <input type="file" id="file-chooser" ng-model="vm.photo" onchange="setImgFile()">
-            <button type='button' class="btn btn-success" ng-show="vm.uploaded" ng-click="vm.removeImg()"><i class="icon ion-trash-b"></i>Remove</button>
+            <input type="file" id="file-chooser" ng-model="vm.photo" onchange="setImgFile('device')">
+            <button type='button' class="btn btn-success" ng-show="vm.uploaded" ng-click="vm.removeImg('device')"><i class="icon ion-trash-b"></i>Remove</button>
           </span>
           </div>
         </div>
@@ -138,58 +138,75 @@
         <div class='clearfix'></div>
       </div>
 
-      <ul class="list-group scrollable">
-        <li class="list-group-item" ng-repeat="update in vm.device.updates | orderBy : '-date'" ng-model="vm.device.update">
-          <div class="row row-eq-height">
-            <div class='col-lg-9 col-sm-8 col-xs-9'>
-              <div class="syn-blue">{{update.date | date : "d MMM yyyy"}} by
-                <span class="bold">{{update.author | formatUser}}</span>
-              </div>
-              <p ng-show='vm.updEdit && vm.edUpdate._id == update._id' class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open='vm.opened' ng-model="vm.edUpdate.date"
-                  datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="vm.openPopup(update._id, update.date)"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-              </p>
-              <div class="breaktext" ng-show="update.message" ng-hide='vm.updEdit && vm.edUpdate._id == update._id'>
-                {{update.message}}
-              </div>
-              <textarea placeholder='Message' class='form-control more-bot-margin' type="text" ng-model="vm.edUpdate.message" ng-show='vm.updEdit && vm.edUpdate._id == update._id'></textarea></h4>
-              <div class="syn-red breaktext" ng-show="update.location && !(vm.updEdit && vm.edUpdate._id == update._id)">
-                <i class="syn-red glyphicon glyphicon-map-marker"></i><span class="middle">&nbsp;{{update.location}}</span>
-              </div>
-              <input placeholder='Location' class='form-control' type="text" ng-model="vm.edUpdate.location" ng-show='vm.updEdit && vm.edUpdate._id == update._id'>
+      <ul ng-show="vm.device.updates.length>0" class="list-group scrollable">
+        <uib-accordion close-others="true">
+          <div uib-accordion-group is-open="$parent.isOpen[$index]" class="list-group-item accordion-toggle" ng-repeat="update in vm.device.updates | orderBy : '-date'"
+            ng-model="vm.device.update">
+            <uib-accordion-heading ng-click="vm.openUpdate()">
+              <div class="row row-eq-height">
+                <div class='col-lg-9 col-sm-8 col-xs-9'>
+                  <div class="syn-blue">{{update.date | date : "d MMM yyyy"}} by
+                    <span class="bold">{{update.author | formatUser}}</span>
+                  </div>
+                  <div class="ellipsis" ng-show="update.message" ng-hide='(vm.open == $index) || vm.updEdit && vm.edUpdate._id == update._id'>
+                    {{update.message}}
+                  </div>
+                  <div class="syn-red breaktext" ng-show="update.location && !(vm.updEdit && vm.edUpdate._id == update._id)">
+                    <i class="syn-red glyphicon glyphicon-map-marker"></i><span class="middle">&nbsp;{{update.location}}</span>
+                  </div>
+                </div>
 
-            </div>
-
-            <div class="col-lg-3 col-sm-4 col-xs-3" align="right">
-
-              <div id="inline-circle" class="circles small-circle middle {{update.status}}-status" ng-hide="!update.status || (vm.updEdit && vm.edUpdate._id == update._id)"></div>
-              <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.toEdit(update)"
-                class="btn btn-outline glyphicon glyphicon-pencil"></button>
-              <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.deleteUpdate(update._id)"
-                class="btn btn-outline glyphicon glyphicon-trash"></button>
-              <div>
-                <button ng-click="vm.updEdit = false;" class="btn btn-outline glyphicon glyphicon-remove" ng-show="vm.updEdit && vm.edUpdate._id == update._id"></button>
-              </div>
-              <div ng-show='vm.updEdit && vm.edUpdate._id == update._id' class="form-group">
-                <div class="col-sm-10 sidepad0 pull-right" uib-dropdown>
-                  <button type="button" id='newstatus' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
-                    &nbsp;{{vm.status || 'Status'}}&nbsp;<span class="caret"></span>
-                </button>
-                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
-                    <li role="menuitem"><a ng-click="vm.setStatus('green', 'OK')">OK</a></li>
-                    <li role="menuitem"><a ng-click="vm.setStatus('yellow', 'Limited')">Limited</a></li>
-                    <li role="menuitem"><a ng-click="vm.setStatus('blue', 'Reserved')">Reserved</a></li>
-                    <li role="menuitem"><a ng-click="vm.setStatus('red', 'Broken')">Broken</a></li>
-                  </ul>
+                <div class="col-lg-3 col-sm-4 col-xs-3" align="right">
+                  <div id="inline-circle" class="circles small-circle middle {{update.status}}-status" ng-hide="!update.status || (vm.updEdit && vm.edUpdate._id == update._id)"></div>
                 </div>
               </div>
-              <div class='clearfix'></div>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-lg-4 col-sm-3 col-xs-4">
+                <p id="datepick" ng-show='vm.updEdit && vm.edUpdate._id == update._id' class="input-group">
+                  <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open='vm.opened' ng-model="vm.edUpdate.date"
+                    datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" />
+                  <span class="input-group-btn">
+                  <button type="button" class="btn btn-default input-btn" ng-click="vm.openPopup(update._id, update.date)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                </p>
+                <input placeholder='Location' class='form-control more-bot-margin' type="text" ng-model="vm.edUpdate.location" ng-show='vm.updEdit && vm.edUpdate._id == update._id'>
+                <img src="{{vm.edUpdate.image}}" class="img-responsive img-rounded">
+                <input ng-show='vm.updEdit && vm.edUpdate._id == update._id' type="file" id="upd-chooser" ng-model="vm.updphoto" onchange="setImgFile('update')">
+                <button type='button' class="btn btn-success" ng-show="update.image || vm.uploadedUpd" ng-click="vm.removeImg('update')"><i class="icon ion-trash-b"></i>Remove</button>
+              </div>
+              <div class="col-lg-5 col-sm-5 col-xs-5">
+                <div ng-show='vm.updEdit && vm.edUpdate._id == update._id' class="form-group">
+                  <div uib-dropdown is-open="false" auto-close="always">
+                    <button type="button" id='newstatus' ng-click="vm.stopProp()" class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
+                    &nbsp;{{vm.status || 'Status'}}&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
+                      <li role="menuitem"><a ng-click="vm.setStatus('green', 'OK')">OK</a></li>
+                      <li role="menuitem"><a ng-click="vm.setStatus('yellow', 'Limited')">Limited</a></li>
+                      <li role="menuitem"><a ng-click="vm.setStatus('blue', 'Reserved')">Reserved</a></li>
+                      <li role="menuitem"><a ng-click="vm.setStatus('red', 'Broken')">Broken</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class='clearfix'></div>
+                <span ng-hide="vm.updEdit && vm.edUpdate._id == update._id">{{update.message}}</span>
+                <textarea placeholder='Message' class='form-control more-bot-margin' type="text" ng-model="vm.edUpdate.message" ng-show='vm.updEdit && vm.edUpdate._id == update._id'></textarea>
+              </div>
+              <div class="col-lg-3 col-sm-4 col-xs-3" align="right">
+                <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.toEdit(update)"
+                  class="btn btn-outline glyphicon glyphicon-pencil"></button>
+                <button ng-hide='(vm.updEdit && vm.edUpdate._id == update._id) || !vm.canEdit(update.author)' ng-click="vm.deleteUpdate(update._id)"
+                  class="btn btn-outline glyphicon glyphicon-trash"></button>
+                <div>
+                  <button ng-show="vm.updEdit && vm.edUpdate._id == update._id" class="btn btn-success glyphicon glyphicon-floppy-disk" ng-click="vm.editUpdate(update)"></button>
+                  <button ng-click="vm.updEdit = false;" class="btn btn-danger glyphicon glyphicon-remove" ng-show="vm.updEdit && vm.edUpdate._id == update._id"></button>
+                </div>
+
+              </div>
             </div>
           </div>
-        </li>
+        </uib-accordion>
       </ul>
     </div>
   </div>
