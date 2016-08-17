@@ -67,12 +67,13 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
                 }
                 if (pressed == false) {
                     setTimeout(function () {
-                        if (numbers.length >= 10) {
+                        if (numbers.length > 0) {
                             var barcode = numbers.join("");
                             if ($location.path('/')) {
                                 searchCodeInItems(barcode);
-                            } else 
-                            $("#code").val(barcode);
+                            } else {
+                                $("#code").val(barcode);
+                            }
                         }
                         numbers = [];
                         pressed = false;
