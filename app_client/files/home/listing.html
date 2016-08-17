@@ -65,7 +65,7 @@
     </ul>
   </div>
 
-  <div class="col-lg-6 col-sm-6" ng-show="!vm.chosen" ng-hide="!vm.devices || vm.devices.length==0">
+  <div class="col-lg-6 col-sm-6" ng-hide="vm.chosen || !vm.devices || vm.devices.length==0">
     <h3 class='no-item'>No item chosen.</h3>
   </div>
 
