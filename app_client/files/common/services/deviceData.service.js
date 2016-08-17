@@ -96,7 +96,7 @@
                 method: 'POST',
                 url: apiUrl + '/devices/' + devicecode + '/updates/' + updateid + '/uploadimg',
                 headers: {
-                    'Content-Type': undefined//'multipart/form-data; boundary=----WebKitFormBoundary4TpcZi3XUXysYj52'
+                    'Content-Type': undefined
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();

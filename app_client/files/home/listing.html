@@ -171,7 +171,8 @@
                 </span>
                 </p>
                 <input placeholder='Location' class='form-control more-bot-margin' type="text" ng-model="vm.edUpdate.location" ng-show='vm.updEdit && vm.edUpdate._id == update._id'>
-                <img src="{{vm.edUpdate.image}}" class="img-responsive img-rounded">
+                <img ng-hide='vm.updEdit && vm.edUpdate._id == update._id' src="{{update.image}}" class="img-responsive img-rounded">
+                <img ng-show='vm.updEdit && vm.edUpdate._id == update._id' src="{{vm.edUpdate.image}}" class="img-responsive img-rounded">
                 <input ng-show='vm.updEdit && vm.edUpdate._id == update._id' type="file" id="upd-chooser" ng-model="vm.updphoto" onchange="setImgFile('update')">
                 <button type='button' class="btn btn-success" ng-show="update.image || vm.uploadedUpd" ng-click="vm.removeImg('update')"><i class="icon ion-trash-b"></i>Remove</button>
               </div>
