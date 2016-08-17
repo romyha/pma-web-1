@@ -333,11 +333,14 @@
                 status: vm.updStatus,
                 location: vm.edUpdate.location
             };
+            if (update.image && !vm.edUpdate.image) {
+                edited.clearImage = true;
+            }
             deviceData.editUpdateById(vm.device._id, update._id, edited).success(function (update) {
                 if (vm.edUpdate.image && vm.edUpdate.image != update.image) {
-                    deviceData.uploadUpdatePicture(vm.device._id, update._id, image);
-                } else if (update.image && !vm.edUpdate.image) {
-                    edited.clearImage = true;
+                    deviceData.uploadUpdatePicture(vm.device._id, update._id, image).success(function () {
+                        doRefresh();
+                    });
                 }
                 vm.updEdit = false;
                 doRefresh();
