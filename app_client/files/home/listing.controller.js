@@ -5,6 +5,7 @@
     function listingCtrl($timeout, $animate, $stateParams, $rootScope, $state, $location, $scope, deviceData, store, authentication, popup, $uibModal) {
         var vm = this;
         var image;
+        var chooser;
         var noImgPath = "../../img/No-image-found.jpg";
         vm.updateImgPath = "../../img/No-image-found.jpg";
 
@@ -21,6 +22,7 @@
         });
 
         vm.toItemInfo = function (code) {
+            vm.editing = false;
             vm.updateForm = false;
             vm.activeItem = code;
             vm.chosen = true;
@@ -247,6 +249,11 @@
             }
         };
 
+        vm.dismissDevEdit = function () {
+            vm.editing = false;
+            vm.path = vm.device.image || noImgPath;
+        }
+
         vm.saveDevice = function () {
             var device = {
                 name: vm.newName,
@@ -256,10 +263,14 @@
 
             if (image) {
                 deviceData.upload(vm.devicecode, image).success(function (data) {
-                    console.log(data);
+                    image = undefined;
+                    chooser.value = '';
                 }).error(function (err) {
                     console.log(err);
                 });
+            }
+            if (vm.device.image && !vm.path) {
+                device.clearImage = true;
             }
             deviceData.editDeviceById(vm.device._id, device).success(function (device) {
                 vm.editing = false;
@@ -289,7 +300,6 @@
         };
 
         setImgFile = function (item) {
-            var chooser;
             if (item == "update") {
                 vm.edUpdate.image = URL.createObjectURL(event.target.files[0]);
                 chooser = document.getElementById('upd-chooser');
@@ -315,6 +325,8 @@
                 vm.edUpdate.image = '';
                 vm.uploadedUpd = false;
             }
+            image = undefined;
+            chooser.value = '';
         };
 
         vm.toEdit = function (update) {

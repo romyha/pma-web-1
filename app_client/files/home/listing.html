@@ -79,7 +79,7 @@
           <a ng-show="vm.device && !vm.editing" class="btn btn-danger" ng-click="vm.deleteDevice()">
             <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
           </a>
-          <a ng-show="vm.editing" class="btn btn-danger" ng-click="vm.editing=false">
+          <a ng-show="vm.editing" class="btn btn-danger" ng-click="vm.dismissDevEdit()">
             <i class="glyphicon glyphicon-remove"></i>&nbsp;Dismiss
           </a>
           <a ng-show="vm.editing" class="btn btn-success" ng-click="vm.saveDevice()">
@@ -122,7 +122,7 @@
             <img ng-style="vm.infoStyle()" class="img-responsive img-rounded" src="{{vm.path}}">
             <span ng-show='vm.editing'>
             <input type="file" id="file-chooser" ng-model="vm.photo" onchange="setImgFile('device')">
-            <button type='button' class="btn btn-success" ng-show="vm.uploaded" ng-click="vm.removeImg('device')"><i class="icon ion-trash-b"></i>Remove</button>
+            <button type='button' class="btn btn-success" ng-show="vm.uploaded || (vm.device.image && vm.editing)" ng-click="vm.removeImg('device')"><i class="icon ion-trash-b"></i>Remove</button>
           </span>
           </div>
         </div>
