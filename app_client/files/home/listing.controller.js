@@ -334,8 +334,10 @@
                 location: vm.edUpdate.location
             };
             deviceData.editUpdateById(vm.device._id, update._id, edited).success(function (update) {
-                if (vm.edUpdate.image != update.image) {
+                if (vm.edUpdate.image && vm.edUpdate.image != update.image) {
                     deviceData.uploadUpdatePicture(vm.device._id, update._id, image);
+                } else if (update.image && !vm.edUpdate.image) {
+                    edited.clearImage = true;
                 }
                 vm.updEdit = false;
                 doRefresh();
