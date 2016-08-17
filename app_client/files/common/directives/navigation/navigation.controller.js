@@ -61,7 +61,7 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
         $(document).ready(function () {
             var pressed = false;
             var numbers = [];
-            $(window).keypress(function (e) {
+            window.addEventListener('keypress', function codeListener (e) {
                 if (e.which >= 48 && e.which <= 57) {
                     numbers.push(String.fromCharCode(e.which));
                 }
@@ -75,6 +75,7 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
                                 $("#code").val(barcode);
                             }
                         }
+                        window.removeEventListener('keypress', codeListener);
                         numbers = [];
                         pressed = false;
                     }, 500);
