@@ -350,7 +350,7 @@
             }
             deviceData.editUpdateById(vm.device._id, update._id, edited).success(function (update) {
                 if (vm.edUpdate.image && vm.edUpdate.image != update.image) {
-                    deviceData.uploadUpdatePicture(vm.device._id, update._id, image).success(function () {
+                    deviceData.uploadUpdatePicture(vm.device.code, update._id, image).success(function () {
                         doRefresh();
                     });
                 }
