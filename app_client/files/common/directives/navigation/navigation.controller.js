@@ -50,15 +50,50 @@ function navigationCtrl($location, $uibModal, authentication, deviceData) {
 
         scanModal.result.then(function (result) {
             if (!isNaN(result)) {
-                deviceData.deviceByCode(result).success(function (device) {
-                    $location.search("code", result);
-                    $location.path('');
-                }).error(function (err) {
-                        $location.path('/devices/' + result + '/new');
-                });
+                searchCodeInItems(result);
             } else {
                 alert('No valid code detected.');
             }
         });
     };
+
+    nvm.pistolScan = function () {
+        $(document).ready(function () {
+            var pressed = false;
+            var numbers = [];
+            $(window).keypress(function (e) {
+                if (e.which >= 48 && e.which <= 57) {
+                    numbers.push(String.fromCharCode(e.which));
+                }
+                if (pressed == false) {
+                    setTimeout(function () {
+                        if (numbers.length >= 10) {
+                            var barcode = numbers.join("");
+                            if ($location.path('/')) {
+                                searchCodeInItems(barcode);
+                            } else 
+                            $("#code").val(barcode);
+                        }
+                        numbers = [];
+                        pressed = false;
+                    }, 500);
+                }
+                pressed = true;
+            });
+        });
+        $("#code").keypress(function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+            }
+        });
+    };
+
+    function searchCodeInItems(code) {
+        deviceData.deviceByCode(code).success(function (device) {
+            $location.search("code", code);
+            $location.path('');
+        }).error(function (err) {
+            $location.path('/devices/' + code + '/new');
+        });
+    }
 }
