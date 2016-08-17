@@ -174,7 +174,7 @@
                 <img ng-hide='vm.updEdit && vm.edUpdate._id == update._id' src="{{update.image}}" class="img-responsive img-rounded">
                 <img ng-show='vm.updEdit && vm.edUpdate._id == update._id' src="{{vm.edUpdate.image}}" class="img-responsive img-rounded">
                 <input ng-show='vm.updEdit && vm.edUpdate._id == update._id' type="file" id="upd-chooser" ng-model="vm.updphoto" onchange="setImgFile('update')">
-                <button type='button' class="btn btn-success" ng-show="update.image || vm.uploadedUpd" ng-click="vm.removeImg('update')"><i class="icon ion-trash-b"></i>Remove</button>
+                <button type='button' class="btn btn-success" ng-show="(update.image || vm.uploadedUpd) && (vm.updEdit && vm.edUpdate._id == update._id)" ng-click="vm.removeImg('update')"><i class="icon ion-trash-b"></i>Remove</button>
               </div>
               <div class="col-lg-5 col-sm-5 col-xs-5">
                 <div ng-show='vm.updEdit && vm.edUpdate._id == update._id' class="form-group">
