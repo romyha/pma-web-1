@@ -48,7 +48,11 @@
 
             scanModal.closed.then(function () {
                 Quagga.stop();
+                $('#scan-modal').html5_qrcode_stop();
+
             });
+
+
 
             scanModal.result.then(function (result) {
                 if (!isNaN(result)) {
@@ -76,7 +80,7 @@
                                 } else {
                                     deviceData.deviceByCode(barcode).success(function (device) {
                                         alert("This code already exists.");
-                                    }).error(function(){
+                                    }).error(function () {
                                         $("#code").val(barcode);
                                     });
                                 }

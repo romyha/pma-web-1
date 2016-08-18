@@ -1,8 +1,8 @@
 (function () {
     angular.module('pm').controller("scanCtrl", scanCtrl);
 
-    scanCtrl.$inject = ['$uibModalInstance'];
-    function scanCtrl($uibModalInstance) {
+    scanCtrl.$inject = ['$uibModalInstance', '$scope'];
+    function scanCtrl($uibModalInstance, $scope) {
         setTimeout(function () {
             Quagga.init({
                 inputStream: {
@@ -26,9 +26,22 @@
             Quagga.onDetected(function (data) {
                 var code = data.codeResult.code;
                 Quagga.stop();
-
                 $uibModalInstance.close(code);
             });
+
+            $('#scan-modal').html5_qrcode(function (code) {
+                $('#scan-modal').html5_qrcode_stop();
+                $uibModalInstance.close(code);
+            }, function (error) { }, function (videoError) {
+                if (videoError) {
+                    $('#scan-modal').html5_qrcode_stop();
+                }
+            }
+            );
         }, 100);
+
+        $scope.$on("modal.closing", function () {
+            $('#scan-modal').html5_qrcode_stop();
+        });
     }
 })();
