@@ -110,10 +110,6 @@
             return $http(options);
         };
 
-        // var uploadDevicePicture = function (devicecode, path) {
-        //   return $cordovaFileTransfer.upload(apiUrl + '/devices/' + devicecode + '/uploadimg', path, { chunkedMode: false }, true);
-        // };
-
         return {
             addDevice: addDevice,
             devices: devices,
@@ -128,7 +124,6 @@
             deleteUpdate: deleteUpdate,
             upload: upload,
             uploadUpdatePicture: uploadUpdatePicture
-            // uploadDevicePicture: uploadDevicePicture
         };
     }
 })();
