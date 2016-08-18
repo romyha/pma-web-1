@@ -554,8 +554,18 @@ canvas {
 
 .input-btn {
     padding-top: 7px !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
 }
 
 #datepick {
     margin-bottom: 15px !important;
+}
+
+.uib-accordion-header {
+    font-weight: normal !important;
+}
+
+.move-left {
+    margin-left: -2px;
 }

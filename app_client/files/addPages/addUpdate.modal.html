@@ -4,14 +4,15 @@
     </div>
     <div class="modal-body">
         <ng-form name='updateform' class='form-horizontal'>
+            <div ng-show="vm.unauthorized" uib-alert class="alert-danger">Unauthorized: You don't have permission to perform this action.</div>
             <div class="form-group">
-                <label for="date" class="col-sm-2 control-label">Location</label>
+                <label for="date" class="col-sm-2 control-label">Date</label>
                 <div class="col-sm-10">
                     <div class="input-group">
                         <input id="date" type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open='vm.opened' ng-model="vm.update.date"
                             datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.opened = !vm.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-default input-btn" ng-click="vm.opened = !vm.opened"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                     </div>
                 </div>
@@ -45,8 +46,8 @@
             </div>
 
             <div align='center'>
-                <button type='button' ng-click='vm.addUpdate()' class='btn btn-success'>Save</button>
-                <button type='button' ng-click='vm.dismiss()' class='btn btn-success'>Dismiss</button>
+                <button type='button' ng-click='vm.dismiss()' class='btn btn-danger'><i class="glyphicon glyphicon-remove"></i>&nbsp;Dismiss</button>
+                <button type='button' ng-click='vm.addUpdate()' class='btn btn-success'><i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Save</button>
             </div>
         </ng-form>
     </div>
