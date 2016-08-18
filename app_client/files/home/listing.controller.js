@@ -1,8 +1,8 @@
 (function () {
     angular.module("pm").controller("listingCtrl", listingCtrl);
 
-
-    function listingCtrl($timeout, $animate, $stateParams, $rootScope, $state, $location, $scope, deviceData, store, authentication, popup, $uibModal) {
+    listingCtrl.$inject = ['$rootScope', '$location', '$scope', 'deviceData', 'authentication', '$uibModal'];
+    function listingCtrl($rootScope, $location, $scope, deviceData, authentication, $uibModal) {
         var vm = this;
         var image;
         var chooser;
