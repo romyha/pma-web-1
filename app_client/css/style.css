@@ -352,10 +352,6 @@ ion-nav-view{
     padding: 0;
 }
 
-.div-screen, #full-scroll > div.scroll {
-    height: 100%;
-}
-
 .common-input {
     border: 1px solid rgb(230, 230, 230) !important;
     border-radius: 3px;
@@ -437,7 +433,6 @@ form {
 
 .scrollable {
     overflow-y: scroll;
-    max-height: 50vh;
 }
 
 html, body {
@@ -457,8 +452,6 @@ html, body {
 .fill-height {
     height: 100% !important;
    max-height: 100% !important;
-    /*max-height: 50% !important;
-    bottom: 0;*/
 }
 
 .resizable {

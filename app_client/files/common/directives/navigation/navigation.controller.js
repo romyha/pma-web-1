@@ -29,12 +29,12 @@
         });
 
         nvm.select = function (tab) {
+            $location.search('code', null);
             $location.path(tab.path);
         };
 
         nvm.logout = function () {
             authentication.logout();
-            // $scope.isLoggedIn = authentication.isLoggedIn();
             $location.path("/login");
         };
 
