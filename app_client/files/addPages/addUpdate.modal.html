@@ -5,6 +5,7 @@
     <div class="modal-body">
         <ng-form name='updateform' class='form-horizontal'>
             <div ng-show="vm.unauthorized" uib-alert class="alert-danger">Unauthorized: You don't have permission to perform this action.</div>
+
             <div class="form-group">
                 <label for="date" class="col-sm-2 control-label">Date</label>
                 <div class="col-sm-10">
@@ -17,10 +18,10 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div ng-class="{'has-error': !vm.colorValid}" aria-invalid="!vm.colorValid" class="form-group">
                 <label for="status" class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-10" uib-dropdown>
-                    <button type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
+                    <button aria-describedby="error" type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
                     &nbsp;{{vm.status}}&nbsp;<span class="caret"></span>
                 </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
@@ -31,19 +32,23 @@
                     </ul>
                 </div>
             </div>
-            <div class="form-group">
+            <div ng-class="{'has-error': !vm.locationValid}" aria-invalid="!vm.locationValid" class="form-group">
                 <label for="location" class="col-sm-2 control-label">Location</label>
                 <div class="col-sm-10">
-                    <input type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8" class="form-control"
-                        id="location" ng-model='vm.update.location'>
+                    <input ng-change="vm.validate()" aria-describedby="error" type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8"
+                        class="form-control" id="location" ng-model='vm.update.location'>
                 </div>
+
             </div>
-            <div class="form-group">
+            <div ng-class="{'has-error': !vm.messageValid}" aria-invalid="!vm.messageValid" class="form-group">
                 <label for="updatemsg" class="col-sm-2 control-label">Update Text</label>
                 <div class="col-sm-10">
-                    <textarea type="text" class="form-control" id="updatemsg" ng-model='vm.update.message'></textarea>
+                    <textarea ng-change="vm.validate()" aria-describedby="error" type="text" class="form-control" id="updatemsg" ng-model='vm.update.message'></textarea>
+                    <span id="error" class="help-block center">{{vm.error}}</span>
                 </div>
+                
             </div>
+
 
             <div align='center'>
                 <button type='button' ng-click='vm.dismiss()' class='btn btn-danger'><i class="glyphicon glyphicon-remove"></i>&nbsp;Dismiss</button>
