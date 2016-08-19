@@ -56,8 +56,7 @@
             </span>
             <div class="col-lg-1 col-sm-1 fill-height" align='right'>
               <div class="{{device.status}}-status fill-height max-w-20" ng-show="device.status"></div>
-            </div>
-            <span align="right"><i class="col col-center larger ion-chevron-right"></i></span>
+            </div> 
         </div>
         </a>
     </div>
@@ -70,7 +69,7 @@
 
   <div class="col-lg-6 col-sm-6 no-left-marg fill-height" ng-show="vm.chosen">
     <div id="open-panel" class="panel panel-default">
-      <div class='container more-bot-margin'>
+      <div id="item-info" class='container more-bot-margin'>
         <div class='row' align='center'>
           <a ng-show="vm.device && !vm.editing" class="btn btn-success" ng-click="vm.editDevice()">
             <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
@@ -86,7 +85,7 @@
           </a>
         </div>
         <div class="row">
-          <div id="item-info" class="col-lg-8 col-sm-7 col-xs-6">
+          <div  class="col-lg-8 col-sm-7 col-xs-6">
             <div class="more-bot-margin">
               <span class="bold wide">Name: </span><span ng-hide='vm.editing'>{{vm.device.name}}</span>
               <input class='form-control' name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'>
@@ -116,7 +115,7 @@
             </div>
             <div ng-style="vm.style" class="{{vm.device.status}}-status circles more-margin" ng-show="vm.device.status"></div>
           </div>
-
+          
           <div class="col-lg-4 col-sm-5 col-xs-6" align="right">
             <img resize="{{vm.device}}" class="img-responsive img-rounded" src="{{vm.path}}">
             <span ng-show='vm.editing'>
@@ -137,7 +136,7 @@
         <div class='clearfix'></div>
       </div>
 
-      <ul ng-show="vm.device.updates.length>0" class="list-group scrollable" resize>
+      <ul ng-show="vm.device.updates.length>0" class="list-group scrollable" resize="{{vm.device}}">
         <uib-accordion close-others="true">
           <div uib-accordion-group is-open="$parent.isOpen[$index]" class="list-group-item accordion-toggle" ng-repeat="update in vm.device.updates | orderBy : '-date'"
             ng-model="vm.device.update">
