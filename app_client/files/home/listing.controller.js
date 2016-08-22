@@ -48,16 +48,6 @@
                     vm.open = open;
                 }, true);
             });
-
-
-        };
-
-        vm.infoStyle = function () {
-            var infoHeight = document.getElementById('item-info').offsetHeight + 'px';
-            document.getElementsByTagName('img')[0].height = infoHeight;
-            return {
-                'max-height': infoHeight
-            };
         };
 
         if ($location.search().code) {
@@ -161,16 +151,6 @@
             vm.locOrder = false;
         };
 
-
-
-        vm.onActive = function (value) {
-            if (value == 'out') {
-                vm.activeItem = 0;
-                $scope.$apply();
-                vm.chosen = false;
-            }
-        };
-
         function buildStatusHistory(data) {
             var states = [];
             var count = 0, i = 0;
@@ -244,7 +224,6 @@
                     $location.search('code', null);
                     doRefresh();
                     vm.chosen = '';
-
                 });
             }
         };
@@ -252,7 +231,7 @@
         vm.dismissDevEdit = function () {
             vm.editing = false;
             vm.path = vm.device.image || noImgPath;
-        }
+        };
 
         vm.saveDevice = function () {
             var device = {
@@ -367,7 +346,7 @@
                 initDate: date,
                 maxDate: new Date()
             };
-        }
+        };
 
         vm.canEdit = function (author) {
             if ($rootScope.testMode) return false;
@@ -383,10 +362,6 @@
                 vm.status = status;
             }
             vm.color = color;
-        };
-
-        vm.scan = function () {
-            alert('Not yet scanning from browser.');
         };
 
         vm.openUpdateModal = function () {

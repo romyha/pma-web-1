@@ -12,14 +12,12 @@
                         if (element[0].localName == 'img') {
                             var infoHeight = document.getElementById('item').offsetHeight + 'px';
                             element[0].style.maxHeight = infoHeight;
-                            console.log(element[0]);
                         } else if (element[0].localName == 'ul') {
                             var navHeight = $('nav').outerHeight(true);
                             var infoHeight = $('#item-info').outerHeight(true);
                             var body = $('body').outerHeight(true);
                             var panel = $('.panel-heading').outerHeight(true);
                             element[0].style.height = body - infoHeight - navHeight - panel - 25 + 'px';
-                            
                         }
                     }, 0);
                 });
