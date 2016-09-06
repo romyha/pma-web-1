@@ -64,6 +64,14 @@
             return $http.post(apiUrl + '/locations', location);
         }
 
+        var itemNames = function () {
+            return $http.get(apiUrl + '/names');
+        }
+
+        var addName = function (name) {
+            return $http.post(apiUrl + '/names', name);
+        }
+
         var deleteUpdate = function (deviceid, updateid) {
             return $http.delete(apiUrl + '/devices/' + deviceid + '/updates/' + updateid, {
                 headers: {
@@ -120,6 +128,8 @@
             deleteById: deleteById,
             locations: locations,
             addLocation: addLocation,
+            itemNames: itemNames,
+            addName: addName,
             deviceByCode: deviceByCode,
             deleteUpdate: deleteUpdate,
             upload: upload,

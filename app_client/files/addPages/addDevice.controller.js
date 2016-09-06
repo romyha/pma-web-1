@@ -12,7 +12,21 @@
         };
 
         deviceData.locations().success(function (locations) {
-            vm.locations = locations;
+            vm.locations = [];
+            if (locations.length > 0) {
+                locations.forEach(function (loc) {
+                    vm.locations.push(loc.name);
+                });
+            }
+        });
+
+        deviceData.itemNames().success(function (names) {
+            vm.itemNames = [];
+            if (names.length > 0) {
+                names.forEach(function (name) {
+                    vm.itemNames.push(name.name);
+                });
+            }
         });
 
         vm.clear = function () {
@@ -70,6 +84,9 @@
                     deviceData.addLocation({
                         name: vm.device.location
                     });
+                }
+                if (vm.itemNames.indexOf(vm.device.name) == -1) {
+                    deviceData.addName({ name: vm.device.name });
                 }
                 afterSave(createNext);
             }).error(function (err) {

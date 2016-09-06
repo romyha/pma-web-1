@@ -5,7 +5,7 @@
         <div class="form-group" ng-class="{'has-error': vm.nameerror}" aria-invalid="vm.device.name==''">
             <label for="name" class="col-sm-2 control-label">Name</label>
             <div class="col-sm-10">
-                <input name='name' aria-describedby="nameerror" type="text" class="form-control" id="name" ng-model='vm.device.name' ng-required='true' ng-change='vm.clear()'>
+                <input name='name' aria-describedby="nameerror" type="text" uib-typeahead="name for name in vm.itemNames | filter:$viewValue | limitTo:8" class="form-control" id="name" ng-model='vm.device.name' ng-required='true' ng-change='vm.clear()'>
                 <span id="nameerror" class="help-block">{{vm.nameerror}}</span>
             </div>
         </div>

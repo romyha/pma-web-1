@@ -14,7 +14,21 @@
         }
 
         deviceData.locations().success(function (locations) {
-            vm.locations = locations;
+            vm.locations = [];
+            if (locations.length > 0) {
+                locations.forEach(function (location) {
+                    vm.locations.push(location.name);
+                });
+            }
+        });
+
+        deviceData.itemNames().success(function (names) {
+            vm.itemNames = [];
+            if (names.length > 0) {
+                names.forEach(function (name) {
+                    vm.itemNames.push(name.name);
+                });
+            }
         });
 
         deviceData.devices().success(function (data) {
@@ -264,6 +278,10 @@
                     deviceData.addLocation({
                         name: vm.location
                     });
+                }
+
+                if (vm.itemNames.indexOf(vm.newName) == -1) {
+                    deviceData.addName(vm.newName);
                 }
                 doRefresh();
                 vm.toItemInfo(vm.itemCode);
