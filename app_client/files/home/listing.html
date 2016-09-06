@@ -47,7 +47,7 @@
               <div>
                 <i class="syn-blue glyphicon glyphicon-refresh"></i>
                 {{device.lastUpdate || device.lastModified | date : "dd.MM.yy"}} 
-                <span ng-show="device.lastUpdate">by <span class="bold">{{device.updates[0].author | formatUser}}</span>
+                <span>by <span class="bold">{{device.updates[0].author || device.creator | formatUser}}</span>
               </span>
             </div>
             <div ng-show="device.location">
@@ -97,8 +97,8 @@
             <div class="more-bot-margin">
               <span class="bold"><i class="syn-blue glyphicon glyphicon-refresh"></i> {{vm.device.updates[0].date || vm.device.lastModified |
               date : "dd.MM.yyyy"}}
-              <span ng-show="vm.device.updates.length>0"> by
-                        {{vm.device.updates[0].author | formatUser}}</span></span>
+              <span> by
+                        {{vm.device.updates[0].author || vm.device.creator | formatUser}}</span></span>
             </div>
             <div class="more-bot-margin">
               <span class="bold"><i ng-hide='vm.editing || !vm.device.location' class="syn-red glyphicon glyphicon-map-marker"></i>
@@ -109,7 +109,7 @@
               </span>
             </div>
             <div class="more-bot-margin">
-              <span class="bold" ng-show="vm.device.description || vm.editing">Description:</span>
+              <span class="bold" ng-show="vm.device.description || vm.editing">Item Description:</span>
               <p ng-show="vm.device.description && !vm.editing" class="breaktext inline">{{vm.device.description}}</p>
               <textarea class='form-control' name="description" ng-model="vm.itemDescr" ng-show='vm.editing'></textarea>
             </div>
