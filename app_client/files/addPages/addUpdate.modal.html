@@ -21,7 +21,7 @@
             <div ng-class="{'has-error': !vm.colorValid}" aria-invalid="!vm.colorValid" class="form-group">
                 <label for="status" class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-10" uib-dropdown>
-                    <button aria-describedby="error" type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
+                    <button aria-describedby="ADerror" type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
                     &nbsp;{{vm.status}}&nbsp;<span class="caret"></span>
                 </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
@@ -35,7 +35,7 @@
             <div ng-class="{'has-error': !vm.locationValid}" aria-invalid="!vm.locationValid" class="form-group">
                 <label for="location" class="col-sm-2 control-label">Location</label>
                 <div class="col-sm-10">
-                    <input ng-change="vm.validate()" aria-describedby="error" type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8"
+                    <input ng-change="vm.validate()" aria-describedby="ADerror" type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8"
                         class="form-control" id="location" ng-model='vm.update.location'>
                 </div>
 
@@ -43,10 +43,17 @@
             <div ng-class="{'has-error': !vm.messageValid}" aria-invalid="!vm.messageValid" class="form-group">
                 <label for="updatemsg" class="col-sm-2 control-label">Update Text</label>
                 <div class="col-sm-10">
-                    <textarea ng-change="vm.validate()" aria-describedby="error" type="text" class="form-control" id="updatemsg" ng-model='vm.update.message'></textarea>
+                    <textarea ng-change="vm.validate()" aria-describedby="ADerror" type="text" class="form-control" id="updatemsg" ng-model='vm.update.message'></textarea>
                     <span id="error" class="help-block center">{{vm.error}}</span>
                 </div>
-                
+            </div>
+            <div class="form-group">
+                <label for="updfile-chooser" class='col-sm-2 control-label'>Update Photo</label>
+                <div class="col-sm-10">
+                    <img src='{{vm.updpath}}' class='img-responsive img-rounded' ng-show='vm.updpath'>
+                    <input type="file" id="updfile-chooser" onchange="setImgFile()">
+                    <button type='button' class="btn btn-danger btn-remove" ng-show="vm.updpath" ng-click="vm.removeImg()"><i class="glyphicon glyphicon-remove"></i>Remove</button>
+                </div>
             </div>
 
 

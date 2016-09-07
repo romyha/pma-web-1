@@ -1,9 +1,10 @@
 (function () {
     angular.module('pm').controller('updateCtrl', updateCtrl);
 
-    updateCtrl.$inject = ['locations', 'author', 'device', 'doRefresh', '$uibModalInstance', 'deviceData'];
-    function updateCtrl(locations, author, device, doRefresh, $uibModalInstance, deviceData) {
+    updateCtrl.$inject = ['$scope', 'locations', 'author', 'device', 'doRefresh', '$uibModalInstance', 'deviceData'];
+    function updateCtrl($scope, locations, author, device, doRefresh, $uibModalInstance, deviceData) {
         var vm = this;
+        var updimg, chooser;
         vm.device = device;
         vm.locations = locations;
         vm.colorValid = true;
@@ -59,6 +60,22 @@
             return valid;
         }
 
+        setImgFile = function () {
+            vm.updpath = URL.createObjectURL(event.target.files[0]);
+            chooser = document.getElementById('updfile-chooser');
+            var file = chooser.files[0];
+            if (file) {
+                updimg = file;
+            }
+            $scope.$apply();
+        };
+
+        vm.removeImg = function () {
+                updimg = undefined;
+                vm.updpath = '';
+                chooser.value = '';
+        };
+
         vm.addUpdate = function () {
             if (vm.validate()) {
                 deviceData.addUpdateById(vm.device._id, {
@@ -68,6 +85,7 @@
                     status: vm.color,
                     message: vm.update.message
                 }).success(function (data) {
+                    console.log(data);
                     if (!(vm.locations.indexOf(vm.update.location) > -1)) {
                         deviceData.addLocation({
                             name: vm.update.location
