@@ -31,9 +31,21 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="file-chooser" class='col-sm-2 control-label'>Item Photo</label>
+            <div class="col-sm-10">
+                <img src='{{vm.path}}' class='img-responsive img-rounded more-bot-margin' ng-show='vm.path'>
+                <input type="file" id="file-chooser" onchange="setImgFile('item')">
+                <button type='button' class="btn btn-danger btn-remove" ng-show="vm.path" ng-click="vm.removeImg('item')"><i class="glyphicon glyphicon-remove"></i>Remove</button>
+            </div>
+        </div>
+
+        <hr/>
+        <h3 class="center">First Update</h3>
+
+        <div ng-class="{'has-error': !vm.colorValid}" aria-invalid="!vm.colorValid" class="form-group">
             <label for="status" class="col-sm-2 control-label">Status</label>
             <div class="col-sm-10" uib-dropdown>
-                <button type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
+                <button aria-describedby="ADerror" type="button" id='status' class="btn btn-default {{vm.color}}-select" uib-dropdown-toggle>
                     &nbsp;{{vm.status}}&nbsp;<span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="status">
@@ -44,23 +56,32 @@
                 </ul>
             </div>
         </div>
-        <div class="form-group">
+        <div ng-class="{'has-error': !vm.locationValid}" aria-invalid="!vm.locationValid" class="form-group">
             <label for="location" class="col-sm-2 control-label">Location</label>
             <div class="col-sm-10">
-                <input type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8" class="form-control"
-                    id="location" ng-model='vm.device.location'>
+                <input ng-change="vm.validateUpdate()" aria-describedby="ADerror" type="text" uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8"
+                    class="form-control" id="location" ng-model='vm.update.location'>
+            </div>
+        </div>
+        <div ng-class="{'has-error': !vm.messageValid}" aria-invalid="!vm.messageValid" class="form-group">
+            <label for="update-text" class="col-sm-2 control-label">Update Text</label>
+            <div class="col-sm-10">
+                <textarea ng-change="vm.validateUpdate()" aria-describedby="ADerror" type="text" class="form-control" id="update-text" ng-model='vm.update.message'></textarea>
+                <span id="ADerror" class="help-block center">{{vm.error}}</span>
             </div>
         </div>
         <div class="form-group">
-            <label for="file-chooser" class='col-sm-2 control-label'>Photo</label>
+            <label for="updfile-chooser" class='col-sm-2 control-label'>Update Photo</label>
             <div class="col-sm-10">
-                <img src='{{vm.path}}' class='img-responsive img-rounded' ng-show='vm.path'>
-                <input type="file" id="file-chooser" onchange="setImgFile()">
+                <img src='{{vm.updpath}}' class='img-responsive img-rounded more-bot-margin' ng-show='vm.updpath'>
+                <input type="file" id="updfile-chooser" onchange="setImgFile('update')">
+                <button type='button' class="btn btn-danger btn-remove" ng-show="vm.updpath" ng-click="vm.removeImg('update')"><i class="glyphicon glyphicon-remove"></i>Remove</button>
             </div>
         </div>
+
         <div align='center'>
-            <button ng-click='vm.addDevice(form.code.$valid, form.name.$valid)' class='btn btn-success'><i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Save</button>
-            <button ng-click='vm.saveAndCreateNext(form.code.$valid, form.name.$valid)' class='btn btn-success'><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Save & Create next</button>
+            <button ng-click='vm.addDevice(form.code.$valid, form.name.$valid)' class='btn btn-success last-btn'><i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Save</button>
+            <button ng-click='vm.saveAndCreateNext(form.code.$valid, form.name.$valid)' class='btn btn-success last-btn'><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Save & Create next</button>
         </div>
     </ng-form>
 </div>

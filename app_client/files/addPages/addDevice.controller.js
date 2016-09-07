@@ -5,7 +5,11 @@
     function addDeviceCtrl($uibModal, $rootScope, $location, deviceData, $routeParams, $scope, store, authentication) {
         var vm = this;
         vm.device = {};
-        var img;
+        vm.update = {};
+        var img, updimg, chooser, updchooser;
+        vm.colorValid = true;
+        vm.messageValid = true;
+        vm.locationValid = true;
 
         if ($routeParams.code !== 'code') {
             vm.device.code = $routeParams.code;
@@ -53,14 +57,45 @@
             }
         }
 
+        vm.validateUpdate = function () {
+            var valid;
+            if (vm.color && !vm.update.message) {
+                vm.error = "Location or message and status required.";
+                vm.messageValid = false;
+                vm.colorValid = true;
+                vm.locationValid = true;
+                valid = false;
+            } else if (vm.update.message && !vm.color) {
+                vm.error = "Location or message and status required.";
+                vm.colorValid = false;
+                vm.messageValid = true;
+                vm.locationValid = true;
+                valid = false;
+            }
+            else if (!vm.update.location && !vm.update.message && !vm.color) {
+                vm.error = "Location or message and status required.";
+                vm.colorValid = false;
+                vm.messageValid = false;
+                vm.locationValid = false;
+                valid = false;
+            } else {
+                vm.error = "";
+                vm.colorValid = true;
+                vm.messageValid = true;
+                vm.locationValid = true;
+                valid = true;
+            }
+            return valid;
+        }
+
         vm.addDevice = function (codeValid, nameValid) {
-            if (validate(codeValid, nameValid)) {
+            if (validate(codeValid, nameValid) && vm.validateUpdate()) {
                 saveItem(false);
             }
         };
 
         vm.saveAndCreateNext = function (codeValid, nameValid) {
-            if (validate(codeValid, nameValid)) {
+            if (validate(codeValid, nameValid) && vm.validateUpdate()) {
                 saveItem(true);
             }
         };
@@ -70,16 +105,33 @@
                 creator: authentication.currentUser().name,
                 name: vm.device.name,
                 description: vm.device.description,
-                status: vm.color,
-                location: vm.device.location,
                 code: vm.device.code
             }
 
-            if (img) {
-                deviceData.upload(vm.device.code, img);
-            }
-
             deviceData.addDevice(deviceToSave).success(function (device) {
+                if (img) {
+                    deviceData.upload(vm.device.code, img);
+                }
+                deviceData.addUpdateById(device._id, {
+                    author: authentication.currentUser().name,
+                    location: vm.update.location,
+                    date: new Date(),
+                    status: vm.color,
+                    message: vm.update.message
+                }).success(function (data) {
+                    if (updimg) {
+                        deviceData.uploadUpdatePicture(vm.device.code, data._id, updimg);
+                    }
+                    if (!(vm.locations.indexOf(vm.update.location) > -1)) {
+                        deviceData.addLocation({
+                            name: vm.update.location
+                        });
+                    }
+                }).error(function (err) {
+                    if (typeof err == "string" && err.indexOf('Unauthorized') > -1) {
+                        vm.unauthorized = true;
+                    }
+                });
                 if (vm.device.location && !(vm.locations.indexOf(vm.device.location) > -1)) {
                     deviceData.addLocation({
                         name: vm.device.location
@@ -118,16 +170,38 @@
         vm.setStatus = function (color, status) {
             vm.status = status;
             vm.color = color;
+            vm.validateUpdate();
         };
 
-        setImgFile = function () {
-            vm.path = URL.createObjectURL(event.target.files[0]);
-            var chooser = document.getElementById('file-chooser');
-            var file = chooser.files[0];
-            if (file) {
-                img = file;
+        setImgFile = function (target) {
+            if (target == "item") {
+                vm.path = URL.createObjectURL(event.target.files[0]);
+                chooser = document.getElementById('file-chooser');
+                var file = chooser.files[0];
+                if (file) {
+                    img = file;
+                }
+            } else {
+                vm.updpath = URL.createObjectURL(event.target.files[0]);
+                updchooser = document.getElementById('updfile-chooser');
+                var file = chooser.files[0];
+                if (file) {
+                    updimg = file;
+                }
             }
             $scope.$apply();
+        };
+
+        vm.removeImg = function (target) {
+            if (target == 'item') {
+                img = '';
+                vm.path = '';
+                chooser.value = '';
+            } else {
+                updimg = '';
+                vm.updpath = '';
+                updchooser.value = '';
+            }
         };
 
         vm.scan = function () {

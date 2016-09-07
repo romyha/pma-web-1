@@ -562,3 +562,15 @@ canvas {
 .move-left {
     margin-left: -2px;
 }
+
+.center {
+    text-align: center;
+}
+
+.btn-remove {
+    margin-top: 5px;
+}
+
+.last-btn {
+    margin-bottom: 15px !important;
+}

@@ -13,14 +13,18 @@
             var author = authentication.currentUser().name;
         }
 
-        deviceData.locations().success(function (locations) {
-            vm.locations = [];
-            if (locations.length > 0) {
-                locations.forEach(function (location) {
-                    vm.locations.push(location.name);
-                });
-            }
-        });
+        loadLocations();
+
+        function loadLocations() {
+            deviceData.locations().success(function (locations) {
+                vm.locations = [];
+                if (locations.length > 0) {
+                    locations.forEach(function (location) {
+                        vm.locations.push(location.name);
+                    });
+                }
+            });
+        }
 
         deviceData.itemNames().success(function (names) {
             vm.itemNames = [];
@@ -103,9 +107,7 @@
                 }
             });
 
-            deviceData.locations().success(function (locations) {
-                vm.locations = locations;
-            });
+            loadLocations();
         };
 
         vm.sort = function (property) {
