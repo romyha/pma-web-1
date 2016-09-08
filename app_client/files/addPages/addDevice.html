@@ -33,8 +33,8 @@
         <div class="form-group">
             <label for="file-chooser" class='col-sm-2 control-label'>Item Photo</label>
             <div class="col-sm-10">
-                <img src='{{vm.path}}' class='img-responsive img-rounded more-bot-margin' ng-show='vm.path'>
-                <input type="file" id="file-chooser" onchange="setImgFile('item')">
+                <img src='{{vm.path}}' class='img-responsive img-rounded more-bot-margin dev-add-img' ng-show='vm.path'>
+                <input type="file" id="file-chooser" onchange="setImgFile('item')" >
                 <button type='button' class="btn btn-danger btn-remove" ng-show="vm.path" ng-click="vm.removeImg('item')"><i class="glyphicon glyphicon-remove"></i>Remove</button>
             </div>
         </div>
@@ -73,7 +73,7 @@
         <div class="form-group">
             <label for="updfile-chooser" class='col-sm-2 control-label'>Update Photo</label>
             <div class="col-sm-10">
-                <img src='{{vm.updpath}}' class='img-responsive img-rounded more-bot-margin' ng-show='vm.updpath'>
+                <img src='{{vm.updpath}}' class='img-responsive img-rounded more-bot-margin dev-add-img' ng-show='vm.updpath'>
                 <input type="file" id="updfile-chooser" onchange="setImgFile('update')">
                 <button type='button' class="btn btn-danger btn-remove" ng-show="vm.updpath" ng-click="vm.removeImg('update')"><i class="glyphicon glyphicon-remove"></i>Remove</button>
             </div>

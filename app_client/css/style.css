@@ -574,3 +574,7 @@ canvas {
 .last-btn {
     margin-bottom: 15px !important;
 }
+
+.dev-add-img {
+    max-height: 400px;
+}
