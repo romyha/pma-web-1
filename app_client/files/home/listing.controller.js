@@ -7,7 +7,6 @@
         var image;
         var chooser;
         var noImgPath = "../../img/No-image-found.jpg";
-        vm.updateImgPath = "../../img/No-image-found.jpg";
 
         if (authentication.currentUser()) {
             var author = authentication.currentUser().name;

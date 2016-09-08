@@ -132,11 +132,7 @@
                         vm.unauthorized = true;
                     }
                 });
-                if (vm.device.location && !(vm.locations.indexOf(vm.device.location) > -1)) {
-                    deviceData.addLocation({
-                        name: vm.device.location
-                    });
-                }
+                
                 if (vm.itemNames.indexOf(vm.device.name) == -1) {
                     deviceData.addName({ name: vm.device.name });
                 }
