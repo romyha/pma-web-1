@@ -88,7 +88,7 @@
           <div id="item" class="col-lg-8 col-sm-7 col-xs-6">
             <div class="more-bot-margin">
               <span class="bold wide">Name: </span><span ng-hide='vm.editing'>{{vm.device.name}}</span>
-              <input class='form-control' name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'>
+              <input class='form-control' uib-typeahead="location for location in vm.itemNames | filter:$viewValue | limitTo:8" name="itemname" type="text" ng-model="vm.newName" ng-show='vm.editing'>
             </div>
             <div class="more-bot-margin">
               <span class="bold wide">Code: </span><span class="left-space" ng-hide='vm.editing'>{{vm.devicecode}} </span>
@@ -168,7 +168,7 @@
                   <button type="button" class="btn btn-default input-btn" ng-click="vm.openPopup(update._id, update.date)"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
                 </p>
-                <input placeholder='Location' class='form-control more-bot-margin' type="text" ng-model="vm.edUpdate.location" ng-show='vm.updEdit && vm.edUpdate._id == update._id'>
+                <input placeholder='Location' uib-typeahead="location for location in vm.locations | filter:$viewValue | limitTo:8" class='form-control more-bot-margin' type="text" ng-model="vm.edUpdate.location" ng-show='vm.updEdit && vm.edUpdate._id == update._id'>
                 <h3 ng-hide="update.image || vm.updEdit" class='no-item'>No picture</h3>
                 <img ng-hide='vm.updEdit && vm.edUpdate._id == update._id' src="{{update.image}}" class="img-responsive img-rounded">
                 <img ng-show='vm.updEdit && vm.edUpdate._id == update._id' src="{{vm.edUpdate.image}}" class="img-responsive img-rounded">
