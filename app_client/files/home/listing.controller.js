@@ -118,7 +118,7 @@
             }
             if (property == "name") {
                 setOrders(true, false, false, false);
-            } else if (property == "lastUpdate") {
+            } else if (property == "lastUpdate || lastModified") {
                 setOrders(false, true, false, false);
             } else if (property == "status") {
                 setOrders(false, false, false, true);
